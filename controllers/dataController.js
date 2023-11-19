@@ -169,7 +169,7 @@ exports.getData = async (req, res) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader.split(" ")[1];
   console.log("token in get content ", token);
-  console.log("req body ", req.query);
+  console.log("req query ", req.query);
   if (!token) {
     return res
       .status(401)
@@ -185,7 +185,7 @@ exports.getData = async (req, res) => {
       return res.status(404).json({ status: "error", error: "User not found" });
     }
 
-    let contentType = "Introduction";
+    let contentType = req.query.contentType;
     if (contentType === "Introduction") {
       console.log("if");
       //   const data = Introduction.find({}) || [];
@@ -210,6 +210,17 @@ exports.getData = async (req, res) => {
       console.log("start 11");
     } else if (contentType === "FacebookAds") {
       console.log("start 12");
+      FacebookAds.find()
+        .then((result) => {
+          // console.log("result ", result);
+          getDetails(result).then((data) => {
+            // console.log("getDetails(result) ", data);
+            console.log("access key", process.env.ACCESS_KEY_ID);
+            console.log("secret key", process.env.SECRET_ACCESS_KEY);
+            return res.status(200).json({ content: data || [] });
+          });
+        })
+        .catch((error1) => console.log(error1));
 
       console.log("start 13");
     } else if (contentType === "CRM") {
