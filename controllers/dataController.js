@@ -169,6 +169,7 @@ exports.getData = async (req, res) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader.split(" ")[1];
   console.log("token in get content ", token);
+  console.log("req body ", req.body);
   if (!token) {
     return res
       .status(401)
@@ -190,7 +191,7 @@ exports.getData = async (req, res) => {
       //   const data = Introduction.find({}) || [];
       Introduction.find()
         .then((result) => {
-          console.log("result ", result);
+          // console.log("result ", result);
           getDetails(result).then((data) => {
             // console.log("getDetails(result) ", data);
             console.log("access key", process.env.ACCESS_KEY_ID);
