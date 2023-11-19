@@ -168,7 +168,6 @@ async function getDetails(data = []) {
 exports.getData = async (req, res) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader.split(" ")[1];
-  console.log("token in get content ", token);
   console.log("req query ", req.query);
   if (!token) {
     return res
@@ -190,46 +189,62 @@ exports.getData = async (req, res) => {
       console.log("if");
       //   const data = Introduction.find({}) || [];
       Introduction.find()
+        .limit(5)
         .then((result) => {
-          // console.log("result ", result);
           getDetails(result).then((data) => {
-            // console.log("getDetails(result) ", data);
-            console.log("access key", process.env.ACCESS_KEY_ID);
-            console.log("secret key", process.env.SECRET_ACCESS_KEY);
             return res.status(200).json({ content: data || [] });
           });
         })
         .catch((error1) => console.log(error1));
     } else if (contentType === "SEO") {
       console.log("start 8");
-
-      console.log("start 9");
-    } else if (contentType === "GoogleAds") {
-      console.log("start 10");
-
-      console.log("start 11");
-    } else if (contentType === "FacebookAds") {
-      console.log("start 12");
-      FacebookAds.find()
+      SEO.find()
+        .limit(5)
         .then((result) => {
-          // console.log("result ", result);
           getDetails(result).then((data) => {
-            // console.log("getDetails(result) ", data);
-            console.log("access key", process.env.ACCESS_KEY_ID);
-            console.log("secret key", process.env.SECRET_ACCESS_KEY);
             return res.status(200).json({ content: data || [] });
           });
         })
         .catch((error1) => console.log(error1));
-
-      console.log("start 13");
+    } else if (contentType === "GoogleAds") {
+      console.log("start 10");
+      GoogleAds.find()
+        .limit(5)
+        .then((result) => {
+          getDetails(result).then((data) => {
+            return res.status(200).json({ content: data || [] });
+          });
+        })
+        .catch((error1) => console.log(error1));
+    } else if (contentType === "FacebookAds") {
+      console.log("start 12");
+      FacebookAds.find()
+        .then((result) => {
+          getDetails(result).then((data) => {
+            return res.status(200).json({ content: data || [] });
+          });
+        })
+        .catch((error1) => console.log(error1));
     } else if (contentType === "CRM") {
       console.log("start 14");
-
-      console.log("start 15");
+      CRM.find()
+        .limit(5)
+        .then((result) => {
+          getDetails(result).then((data) => {
+            return res.status(200).json({ content: data || [] });
+          });
+        })
+        .catch((error1) => console.log(error1));
     } else if (contentType === "ChatBots") {
       console.log("start 16");
-      console.log("start 17");
+      ChatBots.find()
+        .limit(5)
+        .then((result) => {
+          getDetails(result).then((data) => {
+            return res.status(200).json({ content: data || [] });
+          });
+        })
+        .catch((error1) => console.log(error1));
     }
   } catch (error) {
     return res.status(401).json({
