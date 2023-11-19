@@ -169,7 +169,7 @@ exports.getData = async (req, res) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader.split(" ")[1];
   console.log("token in get content ", token);
-  console.log("req body ", req.body);
+  console.log("req body ", req.query);
   if (!token) {
     return res
       .status(401)
