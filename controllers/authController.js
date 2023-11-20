@@ -106,7 +106,7 @@ exports.resetPassword = async (req, res) => {
   const authHeader = req.body.headers.Authorization.split(" ")[1];
   const decodedCredentials = atob(authHeader).split(":");
   const [email, password] = [decodedCredentials[0], decodedCredentials[1]];
-
+  console.log("email and password ", email, password);
   if (!email) {
     return res.status(401).json({
       status: "error",
@@ -130,6 +130,7 @@ exports.resetPassword = async (req, res) => {
         { $set: { password: hashedPassword } }
       );
     }
+    console.log("End");
     return res
       .status(200)
       .json({ status: "ok", message: "Password has been updated." });
