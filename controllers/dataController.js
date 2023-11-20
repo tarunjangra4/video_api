@@ -53,6 +53,7 @@ exports.uploadData = async (req, res) => {
         video_url: req.body.videoKey,
         thumbnail_url: req.body.imageKey,
         videoName: req.body.name,
+        videoDescription: req.body.videoDescription,
         createdAt: Date.now(),
       });
       console.log("start 7");
@@ -62,6 +63,7 @@ exports.uploadData = async (req, res) => {
         video_url: req.body.videoKey,
         thumbnail_url: req.body.imageKey,
         videoName: req.body.name,
+        videoDescription: req.body.videoDescription,
         createdAt: Date.now(),
       });
       console.log("start 9");
@@ -71,6 +73,7 @@ exports.uploadData = async (req, res) => {
         video_url: req.body.videoKey,
         thumbnail_url: req.body.imageKey,
         videoName: req.body.name,
+        videoDescription: req.body.videoDescription,
         createdAt: Date.now(),
       });
       console.log("start 11");
@@ -80,6 +83,7 @@ exports.uploadData = async (req, res) => {
         video_url: req.body.videoKey,
         thumbnail_url: req.body.imageKey,
         videoName: req.body.name,
+        videoDescription: req.body.videoDescription,
         createdAt: Date.now(),
       });
       console.log("start 13");
@@ -89,6 +93,7 @@ exports.uploadData = async (req, res) => {
         video_url: req.body.videoKey,
         thumbnail_url: req.body.imageKey,
         videoName: req.body.name,
+        videoDescription: req.body.videoDescription,
         createdAt: Date.now(),
       });
       console.log("start 15");
@@ -98,6 +103,7 @@ exports.uploadData = async (req, res) => {
         video_url: req.body.videoKey,
         thumbnail_url: req.body.imageKey,
         videoName: req.body.name,
+        videoDescription: req.body.videoDescription,
         createdAt: Date.now(),
       });
       console.log("start 17");
