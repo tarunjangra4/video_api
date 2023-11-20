@@ -7,12 +7,19 @@ require("dotenv").config();
 
 // sign up api app.post("/api/register",
 exports.register = async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await User.create({
-      email: req.body.email,
-      password: hashedPassword,
+  const authHeader = req.body.headers.Authorization.split(" ")[1];
+  const decodedCredentials = atob(authHeader).split(":");
+  const [email, password] = [decodedCredentials[0], decodedCredentials[1]];
+
+  if (!email) {
+    return res.status(401).json({
+      status: "error",
+      error: "Please Provide a valid email.",
     });
+  }
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await User.create({ email, password: hashedPassword });
 
     return res
       .status(200)
@@ -36,7 +43,6 @@ exports.register = async (req, res) => {
 
 // login api app.post("/api/login",
 exports.login = async (req, res) => {
-  // return res.send(`Testing here... ${req.body.email} ${req.body.password}`);
   // console.log("req.body.headers ", req.headers["authorization"]);
   const authHeader = req.body.headers.Authorization.split(" ")[1];
   const decodedCredentials = atob(authHeader).split(":");
@@ -52,14 +58,13 @@ exports.login = async (req, res) => {
       error: "Please Provide a valid email.",
     });
   }
-  console.log("mid");
+
   try {
-    console.log("here");
     const user = await User.findOne({
       // email: req.body.email,
       email: userEmail,
     });
-    console.log(user);
+
     if (!user) {
       return res.status(401).json({
         status: "error",
@@ -67,32 +72,20 @@ exports.login = async (req, res) => {
           "User not found. Please check your email or register a new account.",
       });
     } else {
-      console.log("id ");
       console.log(user._id.toHexString());
-      console.log(typeof user._id.toHexString());
-
       const isPasswordValid = await bcrypt.compare(
         // req.body.password,
         userPassword,
         user.password
       );
-      console.log(isPasswordValid);
-      console.log(process.env.ACCESS_TOKEN_SECRET);
 
       if (isPasswordValid) {
         const token = jwt.sign(
-          {
-            email: user.email,
-          },
+          { email: user.email },
           process.env.ACCESS_TOKEN_SECRET,
           // { algorithm: "RS256" }
           { expiresIn: 604800 }
         );
-        console.log("token", token);
-        // let obj = {
-        //   token,
-        //   userData:
-        // }
         return res.status(200).json({ status: "ok", token });
       } else {
         return res
@@ -101,11 +94,49 @@ exports.login = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       status: "error",
       error: "Internal server error. Please try again later.",
-      // error: `${error} ${req.body.email} ${req.body.password}`,
+    });
+  }
+};
+
+//reset password api
+exports.resetPassword = async (req, res) => {
+  const authHeader = req.body.headers.Authorization.split(" ")[1];
+  const decodedCredentials = atob(authHeader).split(":");
+  const [email, password] = [decodedCredentials[0], decodedCredentials[1]];
+
+  if (!email) {
+    return res.status(401).json({
+      status: "error",
+      error: "Please Provide a valid email.",
+    });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({
+        status: "error",
+        error:
+          "User not found. Please check your email or register a new account.",
+      });
+    } else {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const result = await User.updateOne(
+        { _id: user._id },
+        { $set: { password: hashedPassword } }
+      );
+    }
+    return res
+      .status(200)
+      .json({ status: "ok", message: "Password has been updated." });
+  } catch (error) {
+    return res.status(401).json({
+      status: "error",
+      error: "Error upadting the password.",
     });
   }
 };

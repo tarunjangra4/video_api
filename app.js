@@ -38,6 +38,7 @@ mongoose.connect(
 // Register and login routes from authController
 app.post("/api/register", authController.register);
 app.post("/api/login", authController.login);
+app.put("/api/reset-password", authController.resetPassword);
 
 // User profile and quote routes from respective controllers
 app.get(
