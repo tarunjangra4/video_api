@@ -97,11 +97,25 @@ exports.updateUserProfile = async (req, res) => {
       return res.status(404).json({ status: "error", error: "User not found" });
     }
 
+    const phoneNumber = req.body.phoneNumber || "";
+
+    if (phoneNumber) {
+      // Check if the provided phone number already exists in the database
+      const userWithPhoneNumber = await User.findOne({ phoneNumber });
+      if (userWithPhoneNumber && userWithPhoneNumber.email !== email) {
+        return res.status(400).json({
+          status: "error",
+          error: "Phone number already exists for another user.",
+        });
+      }
+    }
+
     // await User.updateOne({ email: email }, { $set: { name: req.body.name } });
     // if (!req.body.name) {
     //   return res.json({ status: "error", error: "Name can't be empty." });
     // }
-    existingUser.name = req.body.name;
+    existingUser.phoneNumber = phoneNumber;
+    existingUser.name = req.body.name || "";
     await existingUser.save();
 
     return res
