@@ -23,7 +23,13 @@ exports.getUserProfile = async (req, res) => {
         .json({ status: "error", error: "User not found." });
     }
 
-    return res.status(200).json({ status: "ok", user: user });
+    const userData = {
+      name: user.name,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+    };
+
+    return res.status(200).json({ status: "ok", user: userData });
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({
