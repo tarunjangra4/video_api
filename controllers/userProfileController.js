@@ -18,7 +18,7 @@ async function getDetails(data) {
     phoneNumber: data.phoneNumber,
     profileUrl: await getImageURL(data.profileImage),
   };
-
+  console.log("object ", obj);
   return obj;
 }
 
