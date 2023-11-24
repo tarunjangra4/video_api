@@ -1,7 +1,8 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
-const { GetObjectCommand } = require("@aws-sdk/client-s3");
+const { GetObjectCommand, S3Client } = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
 async function getImageURL(key) {
   console.log("getImageURL start");
@@ -10,7 +11,7 @@ async function getImageURL(key) {
     Key: key,
   });
   console.log("getImageURL end1");
-  const url = await getSignedUrl(s3Client, command, { expiresIn: 604800 });
+  const url = await getSignedUrl(S3Client, command, { expiresIn: 604800 });
   console.log("getImageURL end2");
   return url;
 }
