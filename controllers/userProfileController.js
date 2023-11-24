@@ -86,15 +86,19 @@ exports.getUserRole = async (req, res) => {
 
 // update user profile api app.put("/api/user-profile",
 exports.updateUserProfile = async (req, res) => {
+  console.log("put 1");
   const authHeader = req.headers["authorization"];
+  console.log("put 2");
   const token = authHeader.split(" ")[1];
+  console.log("put 3");
   if (!token) {
     return res
       .status(401)
       .json({ status: "error", error: "Token is missing." });
   }
-
+  console.log("put 4");
   try {
+    console.log("put 5");
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const email = decoded.email;
 
