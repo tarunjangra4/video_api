@@ -122,6 +122,7 @@ exports.updateUserProfile = async (req, res) => {
     // }
     existingUser.phoneNumber = phoneNumber;
     existingUser.name = req.body.name || "";
+    existingUser.profileImage = req.body.profileImage;
     await existingUser.save();
 
     return res
