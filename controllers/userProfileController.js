@@ -3,11 +3,14 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 
 async function getImageURL(key) {
+  console.log("getImageURL start");
   const command = new GetObjectCommand({
     Bucket: "thumbnails.video.app",
     Key: key,
   });
+  console.log("getImageURL end1");
   const url = await getSignedUrl(s3Client, command, { expiresIn: 604800 });
+  console.log("getImageURL end2");
   return url;
 }
 
