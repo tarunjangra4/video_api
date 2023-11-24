@@ -11,7 +11,12 @@ async function getImageURL(key) {
     Key: key,
   });
   console.log("getImageURL end1");
-  const url = await getSignedUrl(S3Client, command, { expiresIn: 604800 });
+  try {
+    const url = await getSignedUrl(S3Client, command, { expiresIn: 604800 });
+    console.log("image url ", url);
+  } catch (error) {
+    console.error("Error in getSignedUrl:", error);
+  }
   console.log("getImageURL end2");
   return url;
 }
