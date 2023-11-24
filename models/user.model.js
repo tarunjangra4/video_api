@@ -8,6 +8,7 @@ const User = new mongoose.Schema(
     phoneNumber: { type: String, unique: true },
     profileImage: { type: String },
     userRole: { type: String },
+    createdAt: { type: Date, required: true },
   },
   {
     collection: "user-data",

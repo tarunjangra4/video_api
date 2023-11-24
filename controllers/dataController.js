@@ -17,34 +17,33 @@ const {
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
 exports.uploadData = async (req, res) => {
-  //   console.log("start 1 ", req.headers);
   //   const authHeader = req.headers["authorization"];
   const token = req.body.headers.Authorization.split(" ")[1];
-  console.log("start 2 ", token);
+
   if (!token) {
     return res
       .status(401)
       .json({ status: "error", error: "Token is missing." });
   }
-  console.log("start 3 ", req.body);
+
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const email = decoded.email;
     const user = await User.findOne({ email: email });
-    console.log("start 4 ", req.body);
+
     if (!user) {
       return res
         .status(404)
         .json({ status: "error", error: "User not found." });
     }
-    console.log("start 5 ", req.body);
+
     if (user.userRole !== "admin") {
       return res.status(401).json({
         status: "error",
         error: "You are not allowed to do this operation.",
       });
     }
-    console.log("start 6 ", req.body);
+
     const contentType = req.body.contentType;
     console.log("contentType ", contentType);
     if (contentType === "Introduction") {
@@ -56,9 +55,7 @@ exports.uploadData = async (req, res) => {
         videoDescription: req.body.videoDescription,
         createdAt: Date.now(),
       });
-      console.log("start 7");
     } else if (contentType === "SEO") {
-      console.log("start 8");
       await SEO.create({
         video_url: req.body.videoKey,
         thumbnail_url: req.body.imageKey,
@@ -66,9 +63,7 @@ exports.uploadData = async (req, res) => {
         videoDescription: req.body.videoDescription,
         createdAt: Date.now(),
       });
-      console.log("start 9");
     } else if (contentType === "GoogleAds") {
-      console.log("start 10");
       await GoogleAds.create({
         video_url: req.body.videoKey,
         thumbnail_url: req.body.imageKey,
@@ -76,9 +71,7 @@ exports.uploadData = async (req, res) => {
         videoDescription: req.body.videoDescription,
         createdAt: Date.now(),
       });
-      console.log("start 11");
     } else if (contentType === "FacebookAds") {
-      console.log("start 12");
       await FacebookAds.create({
         video_url: req.body.videoKey,
         thumbnail_url: req.body.imageKey,
@@ -86,9 +79,7 @@ exports.uploadData = async (req, res) => {
         videoDescription: req.body.videoDescription,
         createdAt: Date.now(),
       });
-      console.log("start 13");
     } else if (contentType === "CRM") {
-      console.log("start 14");
       await CRM.create({
         video_url: req.body.videoKey,
         thumbnail_url: req.body.imageKey,
@@ -96,9 +87,7 @@ exports.uploadData = async (req, res) => {
         videoDescription: req.body.videoDescription,
         createdAt: Date.now(),
       });
-      console.log("start 15");
     } else if (contentType === "ChatBots") {
-      console.log("start 16");
       await ChatBots.create({
         video_url: req.body.videoKey,
         thumbnail_url: req.body.imageKey,
@@ -106,7 +95,6 @@ exports.uploadData = async (req, res) => {
         videoDescription: req.body.videoDescription,
         createdAt: Date.now(),
       });
-      console.log("start 17");
     }
 
     return res
@@ -145,7 +133,7 @@ async function getVideoURL(key) {
   return url;
 }
 
-async function getImageURL(key) {
+export async function getImageURL(key) {
   const command = new GetObjectCommand({
     Bucket: "thumbnails.video.app",
     Key: key,
@@ -192,7 +180,6 @@ exports.getData = async (req, res) => {
 
     let contentType = req.query.contentType;
     if (contentType === "Introduction") {
-      console.log("if");
       //   const data = Introduction.find({}) || [];
       Introduction.find()
         .limit(5)
@@ -201,9 +188,10 @@ exports.getData = async (req, res) => {
             return res.status(200).json({ content: data || [] });
           });
         })
-        .catch((error1) => console.log(error1));
+        .catch((error1) =>
+          res.status(500).json({ error: error1 || "Internal Server error." })
+        );
     } else if (contentType === "SEO") {
-      console.log("start 8");
       SEO.find()
         .limit(5)
         .then((result) => {
@@ -211,9 +199,10 @@ exports.getData = async (req, res) => {
             return res.status(200).json({ content: data || [] });
           });
         })
-        .catch((error1) => console.log(error1));
+        .catch((error1) =>
+          res.status(500).json({ error: error1 || "Internal Server error." })
+        );
     } else if (contentType === "GoogleAds") {
-      console.log("start 10");
       GoogleAds.find()
         .limit(5)
         .then((result) => {
@@ -221,18 +210,20 @@ exports.getData = async (req, res) => {
             return res.status(200).json({ content: data || [] });
           });
         })
-        .catch((error1) => console.log(error1));
+        .catch((error1) =>
+          res.status(500).json({ error: error1 || "Internal Server error." })
+        );
     } else if (contentType === "FacebookAds") {
-      console.log("start 12");
       FacebookAds.find()
         .then((result) => {
           getDetails(result).then((data) => {
             return res.status(200).json({ content: data || [] });
           });
         })
-        .catch((error1) => console.log(error1));
+        .catch((error1) =>
+          res.status(500).json({ error: error1 || "Internal Server error." })
+        );
     } else if (contentType === "CRM") {
-      console.log("start 14");
       CRM.find()
         .limit(5)
         .then((result) => {
@@ -240,9 +231,10 @@ exports.getData = async (req, res) => {
             return res.status(200).json({ content: data || [] });
           });
         })
-        .catch((error1) => console.log(error1));
+        .catch((error1) =>
+          res.status(500).json({ error: error1 || "Internal Server error." })
+        );
     } else if (contentType === "ChatBots") {
-      console.log("start 16");
       ChatBots.find()
         .limit(5)
         .then((result) => {
@@ -250,7 +242,9 @@ exports.getData = async (req, res) => {
             return res.status(200).json({ content: data || [] });
           });
         })
-        .catch((error1) => console.log(error1));
+        .catch((error1) =>
+          res.status(500).json({ error: error1 || "Internal Server error." })
+        );
     }
   } catch (error) {
     return res.status(401).json({

@@ -2,6 +2,17 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 require("dotenv").config();
 
+async function getDetails(data) {
+  const obj = {
+    email: data.email,
+    name: data.name,
+    phoneNumber: data.phoneNumber,
+    profileUrl: await getImageURL(data.profileImage),
+  };
+
+  return obj;
+}
+
 // get user profile api app.get("/api/user-profile",
 exports.getUserProfile = async (req, res) => {
   const authHeader = req.headers["authorization"];
@@ -22,6 +33,9 @@ exports.getUserProfile = async (req, res) => {
         .status(404)
         .json({ status: "error", error: "User not found." });
     }
+
+    const userDataWithProfileImage = getDetails(data);
+    console.log("userDataWithProfileImage ", userDataWithProfileImage);
 
     const userData = {
       name: user.name,
@@ -46,7 +60,6 @@ exports.getUserProfile = async (req, res) => {
 };
 
 exports.getUserRole = async (req, res) => {
-  console.log(req.headers);
   const authHeader = req.headers["authorization"];
   const token = authHeader.split(" ")[1];
   if (!token) {
