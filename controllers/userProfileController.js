@@ -1,7 +1,7 @@
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
-const { getImageURL } = require("../Logic");
-require("dotenv").config();
+const { getImageURL } = require("./dataController");
 
 async function getDetails(data) {
   const obj = {
