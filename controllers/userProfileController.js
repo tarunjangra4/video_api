@@ -120,6 +120,7 @@ exports.updateUserProfile = async (req, res) => {
     // if (!req.body.name) {
     //   return res.json({ status: "error", error: "Name can't be empty." });
     // }
+    console.log("req body ", req.body);
     existingUser.phoneNumber = phoneNumber;
     existingUser.name = req.body.name || "";
     existingUser.profileImage = req.body.profileImage;
