@@ -1,7 +1,15 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
-const { getImageURL } = require("./dataController");
+
+async function getImageURL(key) {
+  const command = new GetObjectCommand({
+    Bucket: "thumbnails.video.app",
+    Key: key,
+  });
+  const url = await getSignedUrl(s3Client, command, { expiresIn: 604800 });
+  return url;
+}
 
 async function getDetails(data) {
   const obj = {
