@@ -4,6 +4,14 @@ const User = require("../models/user.model");
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
+const s3Client = new S3Client({
+  region: "ca-central-1",
+  credentials: {
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  },
+});
+
 async function getImageURL(key) {
   console.log("getImageURL start");
   const command = new GetObjectCommand({
@@ -12,7 +20,7 @@ async function getImageURL(key) {
   });
   console.log("getImageURL end1");
   try {
-    const url = await getSignedUrl(S3Client, command, { expiresIn: 604800 });
+    const url = await getSignedUrl(s3Client, command, { expiresIn: 604800 });
     console.log("image url ", url);
   } catch (error) {
     console.error("Error in getSignedUrl:", error);
