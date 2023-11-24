@@ -44,7 +44,7 @@ exports.getUserProfile = async (req, res) => {
     }
     console.log("I am here and you?");
     await getDetails(result).then((data) => {
-      return res.status(200).json({ content: data || [] });
+      console.log(result);
     });
     // const userDataWithProfileImage = await getDetails(data);
     console.log("userDataWithProfileImage ", userDataWithProfileImage);
