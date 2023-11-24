@@ -43,7 +43,7 @@ exports.getUserProfile = async (req, res) => {
         .json({ status: "error", error: "User not found." });
     }
 
-    const userDataWithProfileImage = getDetails(data);
+    const userDataWithProfileImage = await getDetails(data);
     console.log("userDataWithProfileImage ", userDataWithProfileImage);
 
     const userData = {
