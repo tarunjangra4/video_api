@@ -1,6 +1,7 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
+const { GetObjectCommand } = require("@aws-sdk/client-s3");
 
 async function getImageURL(key) {
   console.log("getImageURL start");
