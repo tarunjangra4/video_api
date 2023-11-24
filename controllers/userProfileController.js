@@ -58,15 +58,9 @@ exports.getUserProfile = async (req, res) => {
       return result;
     });
 
-    console.log("userDataWithProfileImage ", userDataWithProfileImage);
-
-    const userData = {
-      name: user.name,
-      email: user.email,
-      phoneNumber: user.phoneNumber,
-    };
-
-    return res.status(200).json({ status: "ok", user: userData });
+    return res
+      .status(200)
+      .json({ status: "ok", user: userDataWithProfileImage });
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({
