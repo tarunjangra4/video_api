@@ -13,19 +13,11 @@ const s3Client = new S3Client({
 });
 
 async function getImageURL(key) {
-  console.log("getImageURL start");
   const command = new GetObjectCommand({
     Bucket: "thumbnails.video.app",
     Key: key,
   });
-  console.log("getImageURL end1");
-  try {
-    const url = await getSignedUrl(s3Client, command, { expiresIn: 604800 });
-    console.log("image url ", url);
-  } catch (error) {
-    console.error("Error in getSignedUrl:", error);
-  }
-  console.log("getImageURL end2");
+  const url = await getSignedUrl(s3Client, command, { expiresIn: 604800 });
   return url;
 }
 
