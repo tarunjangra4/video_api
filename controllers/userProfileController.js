@@ -88,7 +88,11 @@ exports.getUserRole = async (req, res) => {
 exports.updateUserProfile = async (req, res) => {
   console.log("put 1");
   const authHeader = req.headers["authorization"] || "abc ksdflk";
-  console.log("put 2 ", authHeader);
+  console.log(
+    "put 2 ",
+    authHeader,
+    req.body.headers.Authorization.split(" ")[1]
+  );
   const token = authHeader.split(" ")[1];
   console.log("put 3");
   if (!token) {
