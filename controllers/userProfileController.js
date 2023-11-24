@@ -43,10 +43,10 @@ exports.getUserProfile = async (req, res) => {
         .json({ status: "error", error: "User not found." });
     }
     console.log("I am here and you?");
-    getDetails(data)
-      .then((res) => console.log("updated data ", res))
-      .catch((error) => console.log(error));
-    const userDataWithProfileImage = await getDetails(data);
+    await getDetails(result).then((data) => {
+      return res.status(200).json({ content: data || [] });
+    });
+    // const userDataWithProfileImage = await getDetails(data);
     console.log("userDataWithProfileImage ", userDataWithProfileImage);
 
     const userData = {
