@@ -15,6 +15,7 @@ async function getImageURL(key) {
 }
 
 async function getDetails(data) {
+  console.log("getDetails start");
   const obj = {
     email: data.email,
     name: data.name,
