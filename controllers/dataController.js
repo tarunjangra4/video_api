@@ -15,6 +15,7 @@ const {
   DeleteObjectCommand,
 } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { getImageURL } = require("../Logic");
 
 exports.uploadData = async (req, res) => {
   //   const authHeader = req.headers["authorization"];
@@ -127,15 +128,6 @@ const s3Client = new S3Client({
 async function getVideoURL(key) {
   const command = new GetObjectCommand({
     Bucket: "vid.app",
-    Key: key,
-  });
-  const url = await getSignedUrl(s3Client, command, { expiresIn: 604800 });
-  return url;
-}
-
-export async function getImageURL(key) {
-  const command = new GetObjectCommand({
-    Bucket: "thumbnails.video.app",
     Key: key,
   });
   const url = await getSignedUrl(s3Client, command, { expiresIn: 604800 });
