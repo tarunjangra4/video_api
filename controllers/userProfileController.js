@@ -86,18 +86,16 @@ exports.getUserRole = async (req, res) => {
 
 // update user profile api app.put("/api/user-profile",
 exports.updateUserProfile = async (req, res) => {
-  console.log("put 1");
   const authHeader = req.body.headers.Authorization;
   const token = authHeader.split(" ")[1];
-  console.log("put 3 ", token);
+
   if (!token) {
     return res
       .status(401)
       .json({ status: "error", error: "Token is missing." });
   }
-  console.log("put 4");
+
   try {
-    console.log("put 5");
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const email = decoded.email;
 
@@ -119,11 +117,6 @@ exports.updateUserProfile = async (req, res) => {
       }
     }
 
-    // await User.updateOne({ email: email }, { $set: { name: req.body.name } });
-    // if (!req.body.name) {
-    //   return res.json({ status: "error", error: "Name can't be empty." });
-    // }
-    console.log("req body ", req.body);
     existingUser.phoneNumber = phoneNumber;
     existingUser.name = req.body.name || "";
     existingUser.profileImage = req.body.profileImage;
