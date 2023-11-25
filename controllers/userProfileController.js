@@ -153,6 +153,7 @@ exports.updateUserProfile = async (req, res) => {
     existingUser.name = req.body.name || existingUser.name;
     existingUser.profileImage =
       req.body.profileImage || existingUser.profileImage;
+    existingUser.createdAt = existingUser.createdAt || Date.now();
     console.log("try block 4");
     try {
       await existingUser.save();
