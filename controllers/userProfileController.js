@@ -154,7 +154,11 @@ exports.updateUserProfile = async (req, res) => {
     existingUser.profileImage =
       req.body.profileImage || existingUser.profileImage;
     console.log("try block 4");
-    await existingUser.save();
+    try {
+      await existingUser.save();
+    } catch (error) {
+      console.log("save res error", error);
+    }
     console.log("try block 5");
 
     return res
