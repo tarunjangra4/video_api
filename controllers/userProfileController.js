@@ -118,7 +118,7 @@ exports.getUserRole = async (req, res) => {
 exports.updateUserProfile = async (req, res) => {
   const authHeader = req.body.headers.Authorization;
   const token = authHeader.split(" ")[1];
-
+  console.log("token ", token);
   if (!token) {
     return res
       .status(401)
@@ -126,6 +126,7 @@ exports.updateUserProfile = async (req, res) => {
   }
 
   try {
+    console.log("try block 1");
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const email = decoded.email;
 
@@ -133,8 +134,8 @@ exports.updateUserProfile = async (req, res) => {
     if (!existingUser) {
       return res.status(404).json({ status: "error", error: "User not found" });
     }
-
-    const phoneNumber = req.body.phoneNumber || "";
+    console.log("try block 2");
+    const phoneNumber = req.body.phoneNumber || existingUser.phoneNumber;
 
     if (phoneNumber) {
       // Check if the provided phone number already exists in the database
@@ -146,11 +147,15 @@ exports.updateUserProfile = async (req, res) => {
         });
       }
     }
+    console.log("try block 3");
 
     existingUser.phoneNumber = phoneNumber;
-    existingUser.name = req.body.name || "";
-    existingUser.profileImage = req.body.profileImage;
+    existingUser.name = req.body.name || existingUser.name;
+    existingUser.profileImage =
+      req.body.profileImage || existingUser.profileImage;
+    console.log("try block 4");
     await existingUser.save();
+    console.log("try block 5");
 
     return res
       .status(200)
