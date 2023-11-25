@@ -22,14 +22,12 @@ async function getImageURL(key) {
 }
 
 async function getDetails(data) {
-  console.log("getDetails start");
   const obj = {
     email: data.email,
     name: data.name,
     phoneNumber: data.phoneNumber,
     profileUrl: await getImageURL(data.profileImage),
   };
-  console.log("object ", obj);
   return obj;
 }
 
@@ -53,7 +51,7 @@ exports.getUserProfile = async (req, res) => {
         .status(404)
         .json({ status: "error", error: "User not found." });
     }
-    console.log("I am here and you?");
+
     const userDataWithProfileImage = await getDetails(user).then((result) => {
       return result;
     });
@@ -118,7 +116,6 @@ exports.getUserRole = async (req, res) => {
 exports.updateUserProfile = async (req, res) => {
   const authHeader = req.body.headers.Authorization;
   const token = authHeader.split(" ")[1];
-  console.log("token ", token);
   if (!token) {
     return res
       .status(401)
@@ -126,7 +123,6 @@ exports.updateUserProfile = async (req, res) => {
   }
 
   try {
-    console.log("try block 1");
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const email = decoded.email;
 
@@ -134,7 +130,6 @@ exports.updateUserProfile = async (req, res) => {
     if (!existingUser) {
       return res.status(404).json({ status: "error", error: "User not found" });
     }
-    console.log("try block 2");
     const phoneNumber = req.body.phoneNumber || existingUser.phoneNumber;
 
     if (phoneNumber) {
@@ -147,20 +142,21 @@ exports.updateUserProfile = async (req, res) => {
         });
       }
     }
-    console.log("try block 3");
 
     existingUser.phoneNumber = phoneNumber;
     existingUser.name = req.body.name || existingUser.name;
     existingUser.profileImage =
       req.body.profileImage || existingUser.profileImage;
     existingUser.createdAt = existingUser.createdAt || Date.now();
-    console.log("try block 4");
     try {
       await existingUser.save();
     } catch (error) {
-      console.log("save res error", error);
+      console.error("save res error", error);
+      return res.status(500).json({
+        status: "error",
+        error: "Internal Server Error.",
+      });
     }
-    console.log("try block 5");
 
     return res
       .status(200)
