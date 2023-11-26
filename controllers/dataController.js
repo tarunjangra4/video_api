@@ -70,7 +70,7 @@ exports.uploadData = async (req, res) => {
           createdAt: Date.now(),
         });
       } catch (error) {
-        console.log("error in uploading data");
+        console.log("error in uploading data", error);
       }
     } else if (contentType === "GoogleAds") {
       await GoogleAds.create({
