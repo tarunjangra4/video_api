@@ -19,6 +19,8 @@ const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 exports.uploadData = async (req, res) => {
   //   const authHeader = req.headers["authorization"];
   const token = req.body.headers.Authorization.split(" ")[1];
+  console.log("req.body ", req.body);
+  console.log("req.headers ", req.headers);
 
   if (!token) {
     return res
