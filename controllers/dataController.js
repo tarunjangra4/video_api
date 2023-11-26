@@ -19,8 +19,9 @@ const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 exports.uploadData = async (req, res) => {
   //   const authHeader = req.headers["authorization"];
   const token = req.body.headers.Authorization.split(" ")[1];
-  console.log("req.body ", req.body);
-  console.log("req.headers ", req.headers);
+  // console.log("req.body ", req.body);
+  // console.log("req.headers ", req.headers);
+  console.log("token ", token);
 
   if (!token) {
     return res
@@ -31,14 +32,15 @@ exports.uploadData = async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const email = decoded.email;
+    console.log("search");
     const user = await User.findOne({ email: email });
-
+    console.log("find user");
     if (!user) {
       return res
         .status(404)
         .json({ status: "error", error: "User not found." });
     }
-
+    console.log("user validate");
     if (user.userRole !== "admin") {
       return res.status(401).json({
         status: "error",
