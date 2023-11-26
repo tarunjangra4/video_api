@@ -60,13 +60,18 @@ exports.uploadData = async (req, res) => {
         createdAt: Date.now(),
       });
     } else if (contentType === "SEO") {
-      await SEO.create({
-        video_url: req.body.videoKey,
-        thumbnail_url: req.body.imageKey,
-        videoName: req.body.name,
-        videoDescription: req.body.videoDescription,
-        createdAt: Date.now(),
-      });
+      console.log("seo section entered");
+      try {
+        await SEO.create({
+          video_url: req.body.videoKey,
+          thumbnail_url: req.body.imageKey,
+          videoName: req.body.name,
+          videoDescription: req.body.videoDescription,
+          createdAt: Date.now(),
+        });
+      } catch (error) {
+        console.log("error in uploading data");
+      }
     } else if (contentType === "GoogleAds") {
       await GoogleAds.create({
         video_url: req.body.videoKey,
