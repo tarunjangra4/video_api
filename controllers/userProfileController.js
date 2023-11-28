@@ -144,9 +144,10 @@ exports.updateUserProfile = async (req, res) => {
     }
 
     existingUser.phoneNumber = phoneNumber;
-    existingUser.name = req.body.name || existingUser.name;
+    existingUser.name = req.body.name || existingUser.name || "";
     existingUser.profileImage =
       req.body.profileImage || existingUser.profileImage;
+    existingUser.bio = req.body.bio || existingUser.bio || "";
     existingUser.createdAt = existingUser.createdAt || Date.now();
     try {
       await existingUser.save();

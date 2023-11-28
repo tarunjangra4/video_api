@@ -73,7 +73,7 @@ exports.login = async (req, res) => {
       return res.status(401).json({
         status: "error",
         error:
-          "User not found. Please check your email or register a new account.",
+          "User not found. Please check your email or create a new account.",
       });
     } else {
       console.log(user._id.toHexString());
@@ -109,8 +109,17 @@ exports.login = async (req, res) => {
 exports.resetPassword = async (req, res) => {
   const authHeader = req.body.headers.Authorization.split(" ")[1];
   const decodedCredentials = atob(authHeader).split(":");
-  const [email, password] = [decodedCredentials[0], decodedCredentials[1]];
-  console.log("email and password ", email, password);
+  const [email, currPassword, password] = [
+    decodedCredentials[0],
+    decodedCredentials[1],
+    decodedCredentials[2],
+  ];
+  console.log(
+    "email and password and currPassword ",
+    email,
+    password,
+    currPassword
+  );
   if (!email) {
     return res.status(401).json({
       status: "error",
@@ -124,10 +133,17 @@ exports.resetPassword = async (req, res) => {
     if (!user) {
       return res.status(401).json({
         status: "error",
-        error:
-          "User not found. Please check your email or register a new account.",
+        error: "Email does not exist.",
       });
     } else {
+      const isPasswordValid = await bcrypt.compare(currPassword, user.password);
+
+      if (!isPasswordValid) {
+        return res
+          .status(401)
+          .json({ status: "error", error: "Current Password is invalid." });
+      }
+
       const hashedPassword = await bcrypt.hash(password, 10);
       const result = await User.updateOne(
         { _id: user._id },
