@@ -271,9 +271,11 @@ exports.getData = async (req, res) => {
         allRecentData?.sort((a, b) => b.createdAt - a.createdAt);
         const mostRecentData = allRecentData.slice(0, 10);
         try {
-          const allGetDetailsData = getDetails(result).then((data) => {
-            return res.status(200).json({ content: data || [] });
-          });
+          const allGetDetailsData = getDetails(allGetDetailsData).then(
+            (data) => {
+              return res.status(200).json({ content: data || [] });
+            }
+          );
           console.log("allGetDetailsData ", allGetDetailsData);
         } catch (error) {
           console.log("allGetDetailsData error ", error);
