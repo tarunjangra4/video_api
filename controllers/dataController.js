@@ -242,22 +242,28 @@ exports.getData = async (req, res) => {
         const introData = await Introduction.find({})
           .sort({ createdAt: -1 })
           .limit(10);
+        console.log("data1 ", introData);
 
         const facebookAdsData = await FacebookAds.find({})
           .sort({ createdAt: -1 })
           .limit(10);
+        console.log("data2 ", facebookAdsData);
 
         const googleAdsData = await GoogleAds.find({})
           .sort({ createdAt: -1 })
           .limit(10);
+        console.log("data3 ", googleAdsData);
 
         const chatBotsData = await ChatBots.find({})
           .sort({ createdAt: -1 })
           .limit(10);
+        console.log("data4 ", chatBotsData);
 
         const crmData = await CRM.find({}).sort({ createdAt: -1 }).limit(10);
+        console.log("data5 ", crmData);
 
         const seoData = await SEO.find({}).sort({ createdAt: -1 }).limit(10);
+        console.log("data6 ", seoData);
 
         const allRecentData = [
           ...introData,
