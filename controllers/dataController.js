@@ -276,7 +276,7 @@ exports.getData = async (req, res) => {
         console.log("allRecentData ", allRecentData);
 
         allRecentData?.sort((a, b) => b.createdAt - a.createdAt);
-
+        console.log("sorting");
         // Get the top 10 most recent documents from the combined result
         const mostRecentData = allRecentDocuments.slice(0, 10);
         console.log("mostRecentData ", mostRecentData);
