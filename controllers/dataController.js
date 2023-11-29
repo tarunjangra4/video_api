@@ -276,12 +276,10 @@ exports.getData = async (req, res) => {
               return data;
             }
           );
-          console.log("allGetDetailsData ", allGetDetailsData);
+          return res.status(200).json({ content: allGetDetailsData || [] });
         } catch (error) {
-          console.log("allGetDetailsData error ", error);
+          res.status(500).json({ error: error || "Error fetching Data." });
         }
-
-        return res.status(200).json({ content: mostRecentData || [] });
       } catch (error) {}
     }
   } catch (error) {
