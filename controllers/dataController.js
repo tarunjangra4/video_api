@@ -273,7 +273,7 @@ exports.getData = async (req, res) => {
         try {
           const allGetDetailsData = await getDetails(mostRecentData).then(
             (data) => {
-              return res.status(200).json({ content: data || [] });
+              return data;
             }
           );
           console.log("allGetDetailsData ", allGetDetailsData);
