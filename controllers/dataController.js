@@ -179,7 +179,6 @@ exports.getData = async (req, res) => {
     if (contentType === "Introduction") {
       //   const data = Introduction.find({}) || [];
       Introduction.find()
-        .limit(5)
         .then((result) => {
           getDetails(result).then((data) => {
             return res.status(200).json({ content: data || [] });
@@ -190,7 +189,6 @@ exports.getData = async (req, res) => {
         );
     } else if (contentType === "SEO") {
       SEO.find()
-        .limit(5)
         .then((result) => {
           getDetails(result).then((data) => {
             return res.status(200).json({ content: data || [] });
@@ -201,7 +199,6 @@ exports.getData = async (req, res) => {
         );
     } else if (contentType === "GoogleAds") {
       GoogleAds.find()
-        .limit(5)
         .then((result) => {
           getDetails(result).then((data) => {
             return res.status(200).json({ content: data || [] });
@@ -222,7 +219,6 @@ exports.getData = async (req, res) => {
         );
     } else if (contentType === "CRM") {
       CRM.find()
-        .limit(5)
         .then((result) => {
           getDetails(result).then((data) => {
             return res.status(200).json({ content: data || [] });
@@ -233,7 +229,6 @@ exports.getData = async (req, res) => {
         );
     } else if (contentType === "ChatBots") {
       ChatBots.find()
-        .limit(5)
         .then((result) => {
           getDetails(result).then((data) => {
             return res.status(200).json({ content: data || [] });
@@ -242,6 +237,44 @@ exports.getData = async (req, res) => {
         .catch((error1) =>
           res.status(500).json({ error: error1 || "Internal Server error." })
         );
+    } else {
+      try {
+        const introData = await Introduction.find({})
+          .sort({ createdAt: -1 })
+          .limit(10);
+
+        const facebookAdsData = await FacebookAds.find({})
+          .sort({ createdAt: -1 })
+          .limit(10);
+
+        const googleAdsData = await GoogleAds.find({})
+          .sort({ createdAt: -1 })
+          .limit(10);
+
+        const chatBotsData = await ChatBots.find({})
+          .sort({ createdAt: -1 })
+          .limit(10);
+
+        const crmData = await CRM.find({}).sort({ createdAt: -1 }).limit(10);
+
+        const seoData = await SEO.find({}).sort({ createdAt: -1 }).limit(10);
+
+        const allRecentData = [
+          ...introData,
+          ...facebookAdsData,
+          ...googleAdsData,
+          ...chatBotsData,
+          ...crmData,
+          ...seoData,
+        ];
+
+        allRecentData?.sort((a, b) => b.createdAt - a.createdAt);
+
+        // Get the top 10 most recent documents from the combined result
+        const mostRecentData = allRecentDocuments.slice(0, 10);
+
+        return res.status(200).json({ content: mostRecentData || [] });
+      } catch (error) {}
     }
   } catch (error) {
     return res.status(401).json({

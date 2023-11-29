@@ -157,7 +157,7 @@ exports.resetPassword = async (req, res) => {
   } catch (error) {
     return res.status(401).json({
       status: "error",
-      error: "Error upadting the password.",
+      error: "Error updating the password.",
     });
   }
 };
