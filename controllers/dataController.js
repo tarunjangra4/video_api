@@ -271,7 +271,7 @@ exports.getData = async (req, res) => {
         allRecentData?.sort((a, b) => b.createdAt - a.createdAt);
         const mostRecentData = allRecentData.slice(0, 10);
         try {
-          const allGetDetailsData = getDetails(allGetDetailsData).then(
+          const allGetDetailsData = await getDetails(allGetDetailsData).then(
             (data) => {
               return res.status(200).json({ content: data || [] });
             }
