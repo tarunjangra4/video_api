@@ -242,28 +242,22 @@ exports.getData = async (req, res) => {
         const introData = await Introduction.find({})
           .sort({ createdAt: -1 })
           .limit(10);
-        // console.log("data1 ", introData);
 
         const facebookAdsData = await FacebookAds.find({})
           .sort({ createdAt: -1 })
           .limit(10);
-        // console.log("data2 ", facebookAdsData);
 
         const googleAdsData = await GoogleAds.find({})
           .sort({ createdAt: -1 })
           .limit(10);
-        // console.log("data3 ", googleAdsData);
 
         const chatBotsData = await ChatBots.find({})
           .sort({ createdAt: -1 })
           .limit(10);
-        // console.log("data4 ", chatBotsData);
 
         const crmData = await CRM.find({}).sort({ createdAt: -1 }).limit(10);
-        // console.log("data5 ", crmData);
 
         const seoData = await SEO.find({}).sort({ createdAt: -1 }).limit(10);
-        // console.log("data6 ", seoData);
 
         const allRecentData = [
           ...introData,
@@ -273,13 +267,10 @@ exports.getData = async (req, res) => {
           ...crmData,
           ...seoData,
         ];
-        console.log("allRecentData ", allRecentData);
 
         allRecentData?.sort((a, b) => b.createdAt - a.createdAt);
-        console.log("sorting");
-        // Get the top 10 most recent documents from the combined result
         const mostRecentData = allRecentData.slice(0, 10);
-        console.log("mostRecentData ", mostRecentData);
+
         return res.status(200).json({ content: mostRecentData || [] });
       } catch (error) {}
     }
