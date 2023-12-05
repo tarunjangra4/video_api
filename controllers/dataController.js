@@ -289,3 +289,198 @@ exports.getData = async (req, res) => {
     });
   }
 };
+
+exports.deleteData = async (req, res) => {
+  const token = req.body.headers.Authorization.split(" ")[1];
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ status: "error", error: "Token is missing." });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const email = decoded.email;
+    const user = await User.findOne({ email: email });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: "error", error: "User not found." });
+    }
+
+    if (user.userRole !== "admin") {
+      return res.status(401).json({
+        status: "error",
+        error: "You are not allowed to do this operation.",
+      });
+    }
+
+    const contentType = req.body.contentType;
+    const contentId = req.body.contentId;
+    let deletedContent = null;
+
+    if (contentType === "Introduction") {
+      deletedContent = await Introduction.deleteOne({
+        _id: ObjectId(contentId),
+      });
+    } else if (contentType === "SEO") {
+      deletedContent = await SEO.deleteOne({ _id: ObjectId(contentId) });
+    } else if (contentType === "GoogleAds") {
+      deletedContent = await GoogleAds.deleteOne({ _id: ObjectId(contentId) });
+    } else if (contentType === "FacebookAds") {
+      deletedContent = await FacebookAds.deleteOne({
+        _id: ObjectId(contentId),
+      });
+    } else if (contentType === "CRM") {
+      deletedContent = await CRM.deleteOne({ _id: ObjectId(contentId) });
+    } else if (contentType === "ChatBots") {
+      deletedContent = await ChatBots.deleteOne({ _id: ObjectId(contentId) });
+    }
+
+    if (deletedContent.deletedCount === 0) {
+      return res
+        .status(404)
+        .json({ status: "error", error: "Content not found." });
+    }
+
+    return res
+      .status(200)
+      .json({ status: "ok", message: "Video has been removed successfully." });
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({
+        status: "error",
+        error: "Token has expired.",
+      });
+    } else {
+      return res.status(401).json({
+        status: "error",
+        error: "Token is invalid or has been tampered with.",
+      });
+    }
+  }
+};
+
+exports.updateData = async (req, res) => {
+  const token = req.body.headers.Authorization.split(" ")[1];
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ status: "error", error: "Token is missing." });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const email = decoded.email;
+    const user = await User.findOne({ email: email });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: "error", error: "User not found." });
+    }
+
+    if (user.userRole !== "admin") {
+      return res.status(401).json({
+        status: "error",
+        error: "You are not allowed to do this operation.",
+      });
+    }
+
+    const contentType = req.body.contentType;
+    const contentId = req.body.contentId;
+
+    if (contentType === "Introduction") {
+      await Introduction.updateOne(
+        { _id: ObjectId(contentId) },
+        {
+          $set: {
+            video_url: req.body.videoKey,
+            thumbnail_url: req.body.imageKey,
+            videoName: req.body.name,
+            videoDescription: req.body.videoDescription,
+          },
+        }
+      );
+    } else if (contentType === "SEO") {
+      await SEO.updateOne(
+        { _id: ObjectId(contentId) },
+        {
+          $set: {
+            video_url: req.body.videoKey,
+            thumbnail_url: req.body.imageKey,
+            videoName: req.body.name,
+            videoDescription: req.body.videoDescription,
+          },
+        }
+      );
+    } else if (contentType === "GoogleAds") {
+      await GoogleAds.updateOne(
+        { _id: ObjectId(contentId) },
+        {
+          $set: {
+            video_url: req.body.videoKey,
+            thumbnail_url: req.body.imageKey,
+            videoName: req.body.name,
+            videoDescription: req.body.videoDescription,
+          },
+        }
+      );
+    } else if (contentType === "FacebookAds") {
+      await FacebookAds.updateOne(
+        { _id: ObjectId(contentId) },
+        {
+          $set: {
+            video_url: req.body.videoKey,
+            thumbnail_url: req.body.imageKey,
+            videoName: req.body.name,
+            videoDescription: req.body.videoDescription,
+          },
+        }
+      );
+    } else if (contentType === "CRM") {
+      await CRM.updateOne(
+        { _id: ObjectId(contentId) },
+        {
+          $set: {
+            video_url: req.body.videoKey,
+            thumbnail_url: req.body.imageKey,
+            videoName: req.body.name,
+            videoDescription: req.body.videoDescription,
+          },
+        }
+      );
+    } else if (contentType === "ChatBots") {
+      await ChatBots.updateOne(
+        { _id: ObjectId(contentId) },
+        {
+          $set: {
+            video_url: req.body.videoKey,
+            thumbnail_url: req.body.imageKey,
+            videoName: req.body.name,
+            videoDescription: req.body.videoDescription,
+          },
+        }
+      );
+    }
+
+    return res
+      .status(200)
+      .json({ status: "ok", message: "Video has been uloaded successfully." });
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({
+        status: "error",
+        error: "Token has expired.",
+      });
+    } else {
+      return res.status(401).json({
+        status: "error",
+        error: "Token is invalid or has been tampered with.",
+      });
+    }
+  }
+};

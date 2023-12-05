@@ -60,6 +60,8 @@ app.put(
 // video data api's
 app.post("/api/content", dataController.uploadData);
 app.get("/api/content", dataController.getData);
+app.delete("/api/content", dataController.deleteData);
+app.put("/api/content", dataController.updateData);
 
 //
 //
