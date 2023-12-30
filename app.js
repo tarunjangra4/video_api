@@ -8,6 +8,11 @@ const authController = require("./controllers/authController");
 const userProfileController = require("./controllers/userProfileController");
 const dataController = require("./controllers/dataController");
 // const awsController = require("./controllers/awsController");
+const fs = require("fs"),
+  http = require("http"),
+  https = require("https");
+
+const PORT = process.env.PORT;
 
 // app.use(cors("http://localhost:3000"));
 app.use(cors());
@@ -86,6 +91,23 @@ app.put("/api/content", dataController.updateData);
 //   });
 // }
 
-const PORT = process.env.PORT;
 console.log(PORT);
-app.listen(PORT);
+// app.listen(PORT);
+
+if (
+  fs.existsSync("/cert/matrix24app.ca.crt") &&
+  fs.existsSync("/cert/matrix24app.ca.key")
+) {
+  const options = {
+    key: fs.readFileSync("/cert/matrix24app.ca.key"),
+    cert: fs.readFileSync("/cert/matrix24app.ca.crt"),
+  };
+
+  const server = https.createServer(options, app).listen(443, function () {
+    console.log("Express server listening on port " + 443);
+  });
+} else {
+  const server = http.createServer({}, app).listen(PORT, function () {
+    console.log("Express server listening on port " + PORT);
+  });
+}
