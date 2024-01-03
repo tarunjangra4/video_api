@@ -43,7 +43,15 @@ mongoose.connect(
 //   );
 // });
 
-app.get("/ui", (req, res) => {
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
+app.get("/profile", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
+app.get("/video", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
