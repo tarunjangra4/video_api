@@ -18,7 +18,7 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(express.json()); // it is just a middleware will parse the body into json
 
-app.use(express.static(path.join(__dirname, "./build")));
+// app.use(express.static(path.join(__dirname, "./build")));
 
 const MONGO_URL = process.env.MONGO_URL;
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
