@@ -42,9 +42,9 @@ mongoose.connect(
 //   );
 // });
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./build", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "./build", "index.html"));
+// });
 
 // Register and login routes from authController
 app.post("/api/register", authController.register);
