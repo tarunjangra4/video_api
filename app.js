@@ -24,6 +24,7 @@ app.use(express.static(path.join(__dirname, "build")));
 const MONGO_URL = process.env.MONGO_URL;
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
 const MONGO_DB = process.env.MONGO_DB;
+console.log("mongo ", MONGO_URL, MONGO_PASSWORD, MONGO_DB);
 // mongoose.connect(MONGO_URL);
 // mongoose.connect(
 //   "mongodb+srv://tarunjangra4:" +
