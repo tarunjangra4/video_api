@@ -18,6 +18,8 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(express.json()); // it is just a middleware will parse the body into json
 
+app.use(express.static(path.join(__dirname, "./build")));
+
 const MONGO_URL = process.env.MONGO_URL;
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
 const MONGO_DB = process.env.MONGO_DB;
@@ -39,6 +41,10 @@ mongoose.connect(
 //     `Testing here... MONGO_URL=${MONGO_URL} MONGO_PASSWORD=${MONGO_PASSWORD} MONGO_DB=${MONGO_DB} PORT=${PORT} ACCESS_TOKEN_SECRET=${process.env.ACCESS_TOKEN_SECRET}`
 //   );
 // });
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
 
 // Register and login routes from authController
 app.post("/api/register", authController.register);
