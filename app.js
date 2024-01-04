@@ -45,17 +45,17 @@ mongoose.connect(
 //   );
 // });
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
 
-app.get("/profile", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
+// app.get("/profile", (req, res) => {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
 
-app.get("/video", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
+// app.get("/video", (req, res) => {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
 
 // Register and login routes from authController
 app.post("/api/register", authController.register);
@@ -84,6 +84,10 @@ app.post("/api/content", dataController.uploadData);
 app.get("/api/content", dataController.getData);
 app.delete("/api/content", dataController.deleteData);
 app.put("/api/content", dataController.updateData);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 //
 //
