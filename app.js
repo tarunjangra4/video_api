@@ -13,6 +13,7 @@ const fs = require("fs"),
   http = require("http"),
   https = require("https");
 
+// environments varibales are coming from '.env' file whhich is in out project directory
 const PORT = process.env.PORT;
 
 // app.use(cors("http://localhost:3000"));

@@ -154,12 +154,12 @@ async function getDetails(data = []) {
   }
   return newData;
 }
-const PORT = process.env.PORT;
+
 // update user profile api app.put("/api/user-profile",
 exports.getData = async (req, res) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader.split(" ")[1];
-  console.log("req query ", PORT);
+
   if (!token) {
     return res
       .status(401)
