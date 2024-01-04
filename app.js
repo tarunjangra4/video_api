@@ -120,7 +120,7 @@ if (
   };
   console.log("if https");
   const server = https.createServer(options, app).listen(443, function () {
-    console.log("Express server listening on port " + PORT);
+    console.log("Express server listening on port " + 443);
   });
 } else {
   console.log("else http");

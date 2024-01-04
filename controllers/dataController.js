@@ -159,7 +159,7 @@ const PORT = process.env.PORT;
 exports.getData = async (req, res) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader.split(" ")[1];
-  console.log("req query ", PORT);
+  console.log("req query ", req.query);
   if (!token) {
     return res
       .status(401)
