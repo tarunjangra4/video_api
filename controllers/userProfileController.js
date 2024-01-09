@@ -27,6 +27,7 @@ async function getDetails(data) {
     name: data.name,
     phoneNumber: data.phoneNumber,
     profileUrl: await getImageURL(data.profileImage),
+    videoDetails: data.videoDetails,
   };
   return obj;
 }
