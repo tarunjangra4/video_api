@@ -149,6 +149,7 @@ exports.updateUserProfile = async (req, res) => {
       req.body.profileImage || existingUser.profileImage;
     existingUser.bio = req.body.bio || existingUser.bio || "";
     existingUser.createdAt = existingUser.createdAt || Date.now();
+    existingUser.videoDetails.set(req.body.videoId, req.body.percentageWatched);
     try {
       await existingUser.save();
     } catch (error) {
