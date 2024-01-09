@@ -10,6 +10,11 @@ const User = new mongoose.Schema(
     userRole: { type: String },
     bio: { type: String },
     createdAt: { type: Date, required: true },
+    videoDetails: {
+      type: Map,
+      of: Number,
+      default: {},
+    },
   },
   {
     collection: "user-data",
