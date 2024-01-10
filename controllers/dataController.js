@@ -140,9 +140,11 @@ async function getDetails(data = []) {
     const obj = {
       id: item._id,
       videoName: item.videoName,
-      videoUrl: await getVideoURL(item.video_url),
-      thumbnailUrl: await getImageURL(item.thumbnail_url),
-      pdfUrl: await getPdfURL(item.pdf_url),
+      videoUrl: item.video_url ? await getVideoURL(item.video_url) : "",
+      thumbnailUrl: item.thumbnail_url
+        ? await getImageURL(item.thumbnail_url)
+        : "",
+      pdfUrl: item.pdf_url ? await getPdfURL(item.pdf_url) : "",
       createdAt: item.createdAt,
     };
     newData.push(obj);
