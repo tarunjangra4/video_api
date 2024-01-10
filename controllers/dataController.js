@@ -27,6 +27,7 @@ exports.uploadData = async (req, res) => {
   }
 
   try {
+    console.log("try");
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const email = decoded.email;
     const user = await User.findOne({ email: email });
@@ -46,11 +47,11 @@ exports.uploadData = async (req, res) => {
 
     const contentType = req.body.contentType;
     const obj = {
-      video_url: req.body.videoKey,
-      thumbnail_url: req.body.imageKey,
-      pdf_url: req.body.padKey,
-      videoName: req.body.name,
-      videoDescription: req.body.videoDescription,
+      video_url: req?.body?.videoKey,
+      thumbnail_url: req?.body?.imageKey,
+      pdf_url: req?.body?.pdfKey,
+      videoName: req?.body?.name,
+      videoDescription: req?.body?.videoDescription,
       createdAt: Date.now(),
     };
 
