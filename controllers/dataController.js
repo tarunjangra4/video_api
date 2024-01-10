@@ -56,29 +56,17 @@ exports.uploadData = async (req, res) => {
     };
     console.log("obj ", obj);
     if (contentType === "Introduction") {
-      await Introduction.create({
-        obj,
-      });
+      await Introduction.create(obj);
     } else if (contentType === "SEO") {
-      await SEO.create({
-        obj,
-      });
+      await SEO.create(obj);
     } else if (contentType === "GoogleAds") {
-      await GoogleAds.create({
-        obj,
-      });
+      await GoogleAds.create(obj);
     } else if (contentType === "FacebookAds") {
-      await FacebookAds.create({
-        obj,
-      });
+      await FacebookAds.create(obj);
     } else if (contentType === "CRM") {
-      await CRM.create({
-        obj,
-      });
+      await CRM.create(obj);
     } else if (contentType === "ChatBots") {
-      await ChatBots.create({
-        obj,
-      })
+      await ChatBots.create(obj)
         .then((res) => console.log("chatbot response ", res))
         .catch((err) => console.log("chatbot error ", err));
     }
