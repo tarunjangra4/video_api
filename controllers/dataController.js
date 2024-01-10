@@ -54,7 +54,7 @@ exports.uploadData = async (req, res) => {
       videoDescription: req?.body?.videoDescription,
       createdAt: Date.now(),
     };
-
+    console.log("obj ", obj);
     if (contentType === "Introduction") {
       await Introduction.create({
         obj,
