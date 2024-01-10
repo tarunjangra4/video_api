@@ -78,7 +78,9 @@ exports.uploadData = async (req, res) => {
     } else if (contentType === "ChatBots") {
       await ChatBots.create({
         obj,
-      });
+      })
+        .then((res) => console.log("chatbot response ", res))
+        .catch((err) => console.log("chatbot error ", err));
     }
 
     return res
