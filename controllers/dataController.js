@@ -125,6 +125,15 @@ async function getImageURL(key) {
   return url;
 }
 
+async function getPdfURL(key) {
+  const command = new GetObjectCommand({
+    Bucket: "thumbnails.video.app",
+    Key: key,
+  });
+  const url = await getSignedUrl(s3Client, command, { expiresIn: 604800 });
+  return url;
+}
+
 async function getDetails(data = []) {
   let newData = [];
   for (const item of data) {
@@ -133,6 +142,7 @@ async function getDetails(data = []) {
       videoName: item.videoName,
       videoUrl: await getVideoURL(item.video_url),
       thumbnailUrl: await getImageURL(item.thumbnail_url),
+      pdfUrl: await getPdfURL(item.pdf_url),
       createdAt: item.createdAt,
     };
     newData.push(obj);
