@@ -45,53 +45,38 @@ exports.uploadData = async (req, res) => {
     }
 
     const contentType = req.body.contentType;
+    const obj = {
+      video_url: req.body.videoKey,
+      thumbnail_url: req.body.imageKey,
+      pdf_url: req.body.padKey,
+      videoName: req.body.name,
+      videoDescription: req.body.videoDescription,
+      createdAt: Date.now(),
+    };
+
     if (contentType === "Introduction") {
       await Introduction.create({
-        video_url: req.body.videoKey,
-        thumbnail_url: req.body.imageKey,
-        videoName: req.body.name,
-        videoDescription: req.body.videoDescription,
-        createdAt: Date.now(),
+        obj,
       });
     } else if (contentType === "SEO") {
       await SEO.create({
-        video_url: req.body.videoKey,
-        thumbnail_url: req.body.imageKey,
-        videoName: req.body.name,
-        videoDescription: req.body.videoDescription,
-        createdAt: Date.now(),
+        obj,
       });
     } else if (contentType === "GoogleAds") {
       await GoogleAds.create({
-        video_url: req.body.videoKey,
-        thumbnail_url: req.body.imageKey,
-        videoName: req.body.name,
-        videoDescription: req.body.videoDescription,
-        createdAt: Date.now(),
+        obj,
       });
     } else if (contentType === "FacebookAds") {
       await FacebookAds.create({
-        video_url: req.body.videoKey,
-        thumbnail_url: req.body.imageKey,
-        videoName: req.body.name,
-        videoDescription: req.body.videoDescription,
-        createdAt: Date.now(),
+        obj,
       });
     } else if (contentType === "CRM") {
       await CRM.create({
-        video_url: req.body.videoKey,
-        thumbnail_url: req.body.imageKey,
-        videoName: req.body.name,
-        videoDescription: req.body.videoDescription,
-        createdAt: Date.now(),
+        obj,
       });
     } else if (contentType === "ChatBots") {
       await ChatBots.create({
-        video_url: req.body.videoKey,
-        thumbnail_url: req.body.imageKey,
-        videoName: req.body.name,
-        videoDescription: req.body.videoDescription,
-        createdAt: Date.now(),
+        obj,
       });
     }
 
