@@ -389,7 +389,7 @@ exports.updateData = async (req, res) => {
     };
 
     if (contentType === "Introduction") {
-      console.log("Introduction ", obj);
+      console.log("Introduction ", obj, contentId);
       await Introduction.updateOne(
         { _id: ObjectId(contentId) },
         {
