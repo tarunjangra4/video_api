@@ -144,24 +144,27 @@ exports.updateUserProfile = async (req, res) => {
         });
       }
     }
-    console.log(
-      "in mid",
-      phoneNumber + " - " + req.body.name ||
-        existingUser.name + " - " + req.body.profileImage ||
-        existingUser.profileImage + " - " + existingUser.createdAt ||
-        Date.now() +
-          " - " +
-          req.body.videoId +
-          " - " +
-          req.body.percentageWatched
-    );
+    // console.log(
+    //   "in mid",
+    //   phoneNumber + " - " + req.body?.name ||
+    //     existingUser?.name + " - " + req.body?.profileImage ||
+    //     existingUser.profileImage + " - " + existingUser.createdAt ||
+    //     Date.now() +
+    //       " - " +
+    //       req.body.videoId +
+    //       " - " +
+    //       req.body.percentageWatched
+    // );
     existingUser.phoneNumber = phoneNumber;
-    existingUser.name = req.body.name || existingUser.name || "";
+    existingUser.name = req.body?.name || existingUser.name || "";
     existingUser.profileImage =
-      req.body.profileImage || existingUser.profileImage;
-    existingUser.bio = req.body.bio || existingUser.bio || "";
+      req.body?.profileImage || existingUser.profileImage;
+    existingUser.bio = req.body?.bio || existingUser.bio || "";
     existingUser.createdAt = existingUser.createdAt || Date.now();
-    existingUser.videoDetails.set(req.body.videoId, req.body.percentageWatched);
+    existingUser.videoDetails.set(
+      req.body?.videoId,
+      req.body?.percentageWatched
+    );
     try {
       await existingUser.save();
     } catch (error) {
