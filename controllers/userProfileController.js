@@ -145,27 +145,29 @@ exports.updateUserProfile = async (req, res) => {
       }
     }
 
-    console.log("req body ", req.body);
+    // console.log("req body ", req.body);
 
-    console.log(
-      "in mid",
-      req?.body?.profileImage || existingUser.profileImage || "=="
-    );
-    console.log("mid2 ", existingUser.createdAt || Date.now());
-    console.log(
-      "mid3 ",
-      req.body?.videoId + " - " + req.body?.percentageWatched
-    );
+    // console.log(
+    //   "in mid",
+    //   req?.body?.profileImage || existingUser.profileImage || "=="
+    // );
+    // console.log("mid2 ", existingUser.createdAt || Date.now());
+    // console.log(
+    //   "mid3 ",
+    //   req.body?.videoId + " - " + req.body?.percentageWatched
+    // );
     existingUser.phoneNumber = phoneNumber;
     existingUser.name = req.body?.name || existingUser.name || "";
     existingUser.profileImage =
       req.body?.profileImage || existingUser.profileImage;
     existingUser.bio = req.body?.bio || existingUser.bio || "";
     existingUser.createdAt = existingUser.createdAt || Date.now();
-    existingUser.videoDetails.set(
-      req.body?.videoId,
-      req.body?.percentageWatched
-    );
+    req.body?.videoId &&
+      req.body?.percentageWatched &&
+      existingUser.videoDetails.set(
+        req.body?.videoId,
+        req.body?.percentageWatched
+      );
     try {
       await existingUser.save();
     } catch (error) {
