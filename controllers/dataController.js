@@ -380,67 +380,61 @@ exports.updateData = async (req, res) => {
       });
     }
 
-    const contentType = req.body?.contentType;
-    const contentId = req.body?.contentId;
-    console.log("updated body with desc ", req.body);
+    const contentType = req.body?.data?.contentType;
+    const contentId = req.body?.data?.contentId;
 
     let obj = {
-      video_url: req.body.videoKey,
-      thumbnail_url: req.body.imageKey,
-      videoName: req.body.name,
-      videoDescription: req.body.videoDescription,
       completeDescription: req.body.completeDescription,
     };
 
-    console.log("updated data with desc ", obj);
+    if (contentType === "Introduction") {
+      await Introduction.updateOne(
+        { _id: ObjectId(contentId) },
+        {
+          $set: obj,
+        }
+      );
+    } else if (contentType === "SEO") {
+      await SEO.updateOne(
+        { _id: ObjectId(contentId) },
+        {
+          $set: obj,
+        }
+      );
+    } else if (contentType === "GoogleAds") {
+      await GoogleAds.updateOne(
+        { _id: ObjectId(contentId) },
+        {
+          $set: obj,
+        }
+      );
+    } else if (contentType === "FacebookAds") {
+      await FacebookAds.updateOne(
+        { _id: ObjectId(contentId) },
+        {
+          $set: obj,
+        }
+      );
+    } else if (contentType === "CRM") {
+      await CRM.updateOne(
+        { _id: ObjectId(contentId) },
+        {
+          $set: obj,
+        }
+      );
+    } else if (contentType === "ChatBots") {
+      await ChatBots.updateOne(
+        { _id: ObjectId(contentId) },
+        {
+          $set: obj,
+        }
+      );
+    }
 
-    // if (contentType === "Introduction") {
-    //   await Introduction.updateOne(
-    //     { _id: ObjectId(contentId) },
-    //     {
-    //       $set: obj,
-    //     }
-    //   );
-    // } else if (contentType === "SEO") {
-    //   await SEO.updateOne(
-    //     { _id: ObjectId(contentId) },
-    //     {
-    //       $set: obj,
-    //     }
-    //   );
-    // } else if (contentType === "GoogleAds") {
-    //   await GoogleAds.updateOne(
-    //     { _id: ObjectId(contentId) },
-    //     {
-    //       $set: obj,
-    //     }
-    //   );
-    // } else if (contentType === "FacebookAds") {
-    //   await FacebookAds.updateOne(
-    //     { _id: ObjectId(contentId) },
-    //     {
-    //       $set: obj,
-    //     }
-    //   );
-    // } else if (contentType === "CRM") {
-    //   await CRM.updateOne(
-    //     { _id: ObjectId(contentId) },
-    //     {
-    //       $set: obj,
-    //     }
-    //   );
-    // } else if (contentType === "ChatBots") {
-    //   await ChatBots.updateOne(
-    //     { _id: ObjectId(contentId) },
-    //     {
-    //       $set: obj,
-    //     }
-    //   );
-    // }
-
-    return res
-      .status(200)
-      .json({ status: "ok", message: "Video has been uloaded successfully." });
+    return res.status(200).json({
+      status: "ok",
+      message: "Video content has been updated successfully.",
+    });
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({
