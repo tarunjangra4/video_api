@@ -162,7 +162,7 @@ exports.updateUserProfile = async (req, res) => {
         req.body?.percentageWatched
       );
     try {
-      console.log("saving");
+      console.log("saving ", existingUser);
       await existingUser.save();
     } catch (error) {
       console.error("save res error", error);
