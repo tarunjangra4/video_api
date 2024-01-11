@@ -380,8 +380,9 @@ exports.updateData = async (req, res) => {
       });
     }
 
-    const contentType = req.body.contentType;
-    const contentId = req.body.contentId;
+    const contentType = req.body?.contentType;
+    const contentId = req.body?.contentId;
+    console.log("updated body with desc ", req.body);
 
     let obj = {
       video_url: req.body.videoKey,
@@ -391,49 +392,51 @@ exports.updateData = async (req, res) => {
       completeDescription: req.body.completeDescription,
     };
 
-    if (contentType === "Introduction") {
-      await Introduction.updateOne(
-        { _id: ObjectId(contentId) },
-        {
-          $set: obj,
-        }
-      );
-    } else if (contentType === "SEO") {
-      await SEO.updateOne(
-        { _id: ObjectId(contentId) },
-        {
-          $set: obj,
-        }
-      );
-    } else if (contentType === "GoogleAds") {
-      await GoogleAds.updateOne(
-        { _id: ObjectId(contentId) },
-        {
-          $set: obj,
-        }
-      );
-    } else if (contentType === "FacebookAds") {
-      await FacebookAds.updateOne(
-        { _id: ObjectId(contentId) },
-        {
-          $set: obj,
-        }
-      );
-    } else if (contentType === "CRM") {
-      await CRM.updateOne(
-        { _id: ObjectId(contentId) },
-        {
-          $set: obj,
-        }
-      );
-    } else if (contentType === "ChatBots") {
-      await ChatBots.updateOne(
-        { _id: ObjectId(contentId) },
-        {
-          $set: obj,
-        }
-      );
-    }
+    console.log("updated data with desc ", obj);
+
+    // if (contentType === "Introduction") {
+    //   await Introduction.updateOne(
+    //     { _id: ObjectId(contentId) },
+    //     {
+    //       $set: obj,
+    //     }
+    //   );
+    // } else if (contentType === "SEO") {
+    //   await SEO.updateOne(
+    //     { _id: ObjectId(contentId) },
+    //     {
+    //       $set: obj,
+    //     }
+    //   );
+    // } else if (contentType === "GoogleAds") {
+    //   await GoogleAds.updateOne(
+    //     { _id: ObjectId(contentId) },
+    //     {
+    //       $set: obj,
+    //     }
+    //   );
+    // } else if (contentType === "FacebookAds") {
+    //   await FacebookAds.updateOne(
+    //     { _id: ObjectId(contentId) },
+    //     {
+    //       $set: obj,
+    //     }
+    //   );
+    // } else if (contentType === "CRM") {
+    //   await CRM.updateOne(
+    //     { _id: ObjectId(contentId) },
+    //     {
+    //       $set: obj,
+    //     }
+    //   );
+    // } else if (contentType === "ChatBots") {
+    //   await ChatBots.updateOne(
+    //     { _id: ObjectId(contentId) },
+    //     {
+    //       $set: obj,
+    //     }
+    //   );
+    // }
 
     return res
       .status(200)
