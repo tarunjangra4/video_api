@@ -142,6 +142,7 @@ async function getDetails(data = []) {
     };
     newData.push(obj);
   }
+  console.log("new data ", newData);
   return newData;
 }
 
