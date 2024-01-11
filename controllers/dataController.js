@@ -395,7 +395,9 @@ exports.updateData = async (req, res) => {
         {
           $set: obj,
         }
-      );
+      )
+        .then((res) => console.log("res ", res))
+        .catch((err) => console.log("err ", err));
     } else if (contentType === "SEO") {
       await SEO.updateOne(
         { _id: ObjectId(contentId) },
