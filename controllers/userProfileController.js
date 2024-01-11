@@ -131,7 +131,7 @@ exports.updateUserProfile = async (req, res) => {
     if (!existingUser) {
       return res.status(404).json({ status: "error", error: "User not found" });
     }
-    console.log("existingUser ", existingUser);
+    // console.log("existingUser ", existingUser);
     const phoneNumber = req.body.phoneNumber || existingUser.phoneNumber;
 
     if (phoneNumber) {
@@ -145,17 +145,10 @@ exports.updateUserProfile = async (req, res) => {
       }
     }
 
-    // console.log("req body ", req.body);
+    console.log("req body ", req.body);
 
-    // console.log(
-    //   "in mid",
-    //   req?.body?.profileImage || existingUser.profileImage || "=="
-    // );
-    // console.log("mid2 ", existingUser.createdAt || Date.now());
-    // console.log(
-    //   "mid3 ",
-    //   req.body?.videoId + " - " + req.body?.percentageWatched
-    // );
+    console.log("in mid", req?.body?.bio || existingUser.bio || "==");
+
     existingUser.phoneNumber = phoneNumber;
     existingUser.name = req.body?.name || existingUser.name || "";
     existingUser.profileImage =
@@ -169,6 +162,7 @@ exports.updateUserProfile = async (req, res) => {
         req.body?.percentageWatched
       );
     try {
+      console.log("saving");
       await existingUser.save();
     } catch (error) {
       console.error("save res error", error);
