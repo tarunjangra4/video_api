@@ -28,6 +28,7 @@ async function getDetails(data) {
     phoneNumber: data.phoneNumber,
     profileUrl: await getImageURL(data.profileImage),
     videoDetails: data.videoDetails,
+    bio: data.bio,
   };
   return obj;
 }
@@ -113,7 +114,6 @@ exports.getUserRole = async (req, res) => {
   }
 };
 
-// update user profile api app.put("/api/user-profile",
 exports.updateUserProfile = async (req, res) => {
   const authHeader = req.body.headers.Authorization;
   const token = authHeader.split(" ")[1];
@@ -131,7 +131,7 @@ exports.updateUserProfile = async (req, res) => {
     if (!existingUser) {
       return res.status(404).json({ status: "error", error: "User not found" });
     }
-    // console.log("existingUser ", existingUser);
+
     const phoneNumber = req.body.phoneNumber || existingUser.phoneNumber;
 
     if (phoneNumber) {
@@ -145,10 +145,6 @@ exports.updateUserProfile = async (req, res) => {
       }
     }
 
-    console.log("req body ", req.body);
-
-    console.log("in mid", req?.body?.bio || existingUser.bio || "==");
-
     existingUser.phoneNumber = phoneNumber;
     existingUser.name = req.body?.name || existingUser.name || "";
     existingUser.profileImage =
@@ -161,8 +157,8 @@ exports.updateUserProfile = async (req, res) => {
         req.body?.videoId,
         req.body?.percentageWatched
       );
+
     try {
-      console.log("saving ", existingUser);
       await existingUser.save();
     } catch (error) {
       console.error("save res error", error);
