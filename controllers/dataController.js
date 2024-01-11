@@ -385,7 +385,7 @@ exports.updateData = async (req, res) => {
     const contentId = req.body?.data?.contentId;
 
     let obj = {
-      completeDescription: req.body.completeDescription,
+      completeDescription: req.body?.data?.completeDescription || "",
     };
 
     if (contentType === "Introduction") {
