@@ -143,11 +143,10 @@ async function getDetails(data = []) {
   return newData;
 }
 
-// update user profile api app.put("/api/user-profile",
 exports.getData = async (req, res) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader.split(" ")[1];
-
+  console.log("token ", token);
   if (!token) {
     return res
       .status(401)
@@ -155,6 +154,7 @@ exports.getData = async (req, res) => {
   }
 
   try {
+    console.log("try");
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const email = decoded.email;
 
@@ -162,6 +162,7 @@ exports.getData = async (req, res) => {
     if (!existingUser) {
       return res.status(404).json({ status: "error", error: "User not found" });
     }
+    console.log("existing user ", existingUser);
 
     let contentType = req.query.contentType;
     if (contentType === "Introduction") {
@@ -279,80 +280,72 @@ exports.getData = async (req, res) => {
 };
 
 exports.deleteData = async (req, res) => {
-  const token = req.body.headers.Authorization.split(" ")[1];
-
-  if (!token) {
-    return res
-      .status(401)
-      .json({ status: "error", error: "Token is missing." });
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    const email = decoded.email;
-    const user = await User.findOne({ email: email });
-
-    if (!user) {
-      return res
-        .status(404)
-        .json({ status: "error", error: "User not found." });
-    }
-
-    if (user.userRole !== "admin") {
-      return res.status(401).json({
-        status: "error",
-        error: "You are not allowed to do this operation.",
-      });
-    }
-
-    const contentType = req.body.contentType;
-    const contentId = req.body.contentId;
-    let deletedContent = null;
-
-    if (contentType === "Introduction") {
-      deletedContent = await Introduction.deleteOne({
-        _id: new ObjectId(contentId),
-      });
-    } else if (contentType === "SEO") {
-      deletedContent = await SEO.deleteOne({ _id: new ObjectId(contentId) });
-    } else if (contentType === "GoogleAds") {
-      deletedContent = await GoogleAds.deleteOne({
-        _id: new ObjectId(contentId),
-      });
-    } else if (contentType === "FacebookAds") {
-      deletedContent = await FacebookAds.deleteOne({
-        _id: new ObjectId(contentId),
-      });
-    } else if (contentType === "CRM") {
-      deletedContent = await CRM.deleteOne({ _id: new ObjectId(contentId) });
-    } else if (contentType === "ChatBots") {
-      deletedContent = await ChatBots.deleteOne({
-        _id: new ObjectId(contentId),
-      });
-    }
-
-    if (deletedContent.deletedCount === 0) {
-      return res
-        .status(404)
-        .json({ status: "error", error: "Content not found." });
-    }
-
-    return res
-      .status(200)
-      .json({ status: "ok", message: "Video has been removed successfully." });
-  } catch (error) {
-    if (error.name === "TokenExpiredError") {
-      return res.status(401).json({
-        status: "error",
-        error: "Token has expired.",
-      });
-    } else {
-      return res.status(401).json({
-        status: "error",
-        error: "Token is invalid or has been tampered with.",
-      });
-    }
-  }
+  // const token = req.body.headers.Authorization.split(" ")[1];
+  // if (!token) {
+  //   return res
+  //     .status(401)
+  //     .json({ status: "error", error: "Token is missing." });
+  // }
+  // try {
+  //   const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+  //   const email = decoded.email;
+  //   const user = await User.findOne({ email: email });
+  //   if (!user) {
+  //     return res
+  //       .status(404)
+  //       .json({ status: "error", error: "User not found." });
+  //   }
+  //   if (user.userRole !== "admin") {
+  //     return res.status(401).json({
+  //       status: "error",
+  //       error: "You are not allowed to do this operation.",
+  //     });
+  //   }
+  //   const contentType = req.body.contentType;
+  //   const contentId = req.body.contentId;
+  //   let deletedContent = null;
+  //   if (contentType === "Introduction") {
+  //     deletedContent = await Introduction.deleteOne({
+  //       _id: new ObjectId(contentId),
+  //     });
+  //   } else if (contentType === "SEO") {
+  //     deletedContent = await SEO.deleteOne({ _id: new ObjectId(contentId) });
+  //   } else if (contentType === "GoogleAds") {
+  //     deletedContent = await GoogleAds.deleteOne({
+  //       _id: new ObjectId(contentId),
+  //     });
+  //   } else if (contentType === "FacebookAds") {
+  //     deletedContent = await FacebookAds.deleteOne({
+  //       _id: new ObjectId(contentId),
+  //     });
+  //   } else if (contentType === "CRM") {
+  //     deletedContent = await CRM.deleteOne({ _id: new ObjectId(contentId) });
+  //   } else if (contentType === "ChatBots") {
+  //     deletedContent = await ChatBots.deleteOne({
+  //       _id: new ObjectId(contentId),
+  //     });
+  //   }
+  //   if (deletedContent.deletedCount === 0) {
+  //     return res
+  //       .status(404)
+  //       .json({ status: "error", error: "Content not found." });
+  //   }
+  //   return res
+  //     .status(200)
+  //     .json({ status: "ok", message: "Video has been removed successfully." });
+  // } catch (error) {
+  //   if (error.name === "TokenExpiredError") {
+  //     return res.status(401).json({
+  //       status: "error",
+  //       error: "Token has expired.",
+  //     });
+  //   } else {
+  //     return res.status(401).json({
+  //       status: "error",
+  //       error: "Token is invalid or has been tampered with.",
+  //     });
+  //   }
+  // }
 };
 
 exports.updateData = async (req, res) => {
