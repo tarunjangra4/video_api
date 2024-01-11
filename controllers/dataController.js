@@ -136,6 +136,8 @@ async function getDetails(data = []) {
         ? await getImageURL(item.thumbnail_url)
         : "",
       pdfUrl: item.pdf_url ? await getPdfURL(item.pdf_url) : "",
+      videoDescription: item?.videoDescription,
+      completeDescription: item?.completeDescription,
       createdAt: item.createdAt,
     };
     newData.push(obj);
