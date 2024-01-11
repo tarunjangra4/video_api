@@ -146,7 +146,7 @@ async function getDetails(data = []) {
 exports.getData = async (req, res) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader.split(" ")[1];
-  console.log("token ", token);
+
   if (!token) {
     return res
       .status(401)
@@ -154,7 +154,6 @@ exports.getData = async (req, res) => {
   }
 
   try {
-    console.log("try");
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const email = decoded.email;
 
@@ -162,7 +161,6 @@ exports.getData = async (req, res) => {
     if (!existingUser) {
       return res.status(404).json({ status: "error", error: "User not found" });
     }
-    console.log("existing user ", existingUser);
 
     let contentType = req.query.contentType;
     if (contentType === "Introduction") {
