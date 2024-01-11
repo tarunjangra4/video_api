@@ -131,6 +131,7 @@ exports.updateUserProfile = async (req, res) => {
     if (!existingUser) {
       return res.status(404).json({ status: "error", error: "User not found" });
     }
+    console.log("existingUser ", existingUser);
     const phoneNumber = req.body.phoneNumber || existingUser.phoneNumber;
 
     if (phoneNumber) {
@@ -143,7 +144,7 @@ exports.updateUserProfile = async (req, res) => {
         });
       }
     }
-
+    console.log("in mid");
     existingUser.phoneNumber = phoneNumber;
     existingUser.name = req.body.name || existingUser.name || "";
     existingUser.profileImage =
@@ -167,7 +168,7 @@ exports.updateUserProfile = async (req, res) => {
   } catch (error) {
     return res.status(401).json({
       status: "error",
-      error: "Session expired, please log in again.",
+      error: "Internal Server Error.",
     });
   }
 };
