@@ -15,6 +15,7 @@ const {
   DeleteObjectCommand,
 } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const ObjectId = require("mongodb").ObjectId;
 
 exports.uploadData = async (req, res) => {
   //   const authHeader = req.headers["authorization"];
