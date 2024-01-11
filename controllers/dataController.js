@@ -15,7 +15,7 @@ const {
   DeleteObjectCommand,
 } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-// const ObjectId = require("mongodb").ObjectId;
+const ObjectId = require("mongodb").ObjectId;
 
 exports.uploadData = async (req, res) => {
   //   const authHeader = req.headers["authorization"];
@@ -28,7 +28,6 @@ exports.uploadData = async (req, res) => {
   }
 
   try {
-    console.log("try");
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const email = decoded.email;
     const user = await User.findOne({ email: email });
@@ -55,7 +54,6 @@ exports.uploadData = async (req, res) => {
       videoDescription: req?.body?.videoDescription,
       createdAt: Date.now(),
     };
-    console.log("obj ", obj);
     if (contentType === "Introduction") {
       await Introduction.create(obj);
     } else if (contentType === "SEO") {
@@ -67,9 +65,7 @@ exports.uploadData = async (req, res) => {
     } else if (contentType === "CRM") {
       await CRM.create(obj);
     } else if (contentType === "ChatBots") {
-      await ChatBots.create(obj)
-        .then((res) => console.log("chatbot response ", res))
-        .catch((err) => console.log("chatbot error ", err));
+      await ChatBots.create(obj);
     }
 
     return res
@@ -448,10 +444,10 @@ exports.updateData = async (req, res) => {
         error: "Token has expired.",
       });
     } else {
-      console.log("end error ", error);
+      console.log(error);
       return res.status(401).json({
         status: "error",
-        error: "Token is invalid or has been tampered with.",
+        error: "Internal Server Error.",
       });
     }
   }
