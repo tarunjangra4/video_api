@@ -149,9 +149,11 @@ exports.updateUserProfile = async (req, res) => {
 
     console.log(
       "in mid",
-      phoneNumber + " - " + req.body?.name ||
-        existingUser?.name + " - " + req.body?.profileImage ||
-        existingUser.profileImage + " - " + existingUser.createdAt ||
+      req?.body?.profileImage || existingUser.profileImage || "=="
+    );
+    console.log(
+      "mid2 ",
+      existingUser.createdAt ||
         Date.now() +
           " - " +
           req.body.videoId +
