@@ -446,6 +446,7 @@ exports.updateData = async (req, res) => {
         error: "Token has expired.",
       });
     } else {
+      console.log("end error ", error);
       return res.status(401).json({
         status: "error",
         error: "Token is invalid or has been tampered with.",
