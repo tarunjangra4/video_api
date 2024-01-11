@@ -23,12 +23,14 @@ async function getImageURL(key) {
 
 async function getDetails(data) {
   const obj = {
-    email: data.email,
-    name: data.name,
-    phoneNumber: data.phoneNumber,
-    profileUrl: await getImageURL(data.profileImage),
-    videoDetails: data.videoDetails,
-    bio: data.bio,
+    email: data?.email || "",
+    name: data?.name || "",
+    phoneNumber: data?.phoneNumber || "",
+    profileUrl: data?.profileImage
+      ? await getImageURL(data?.profileImage)
+      : null,
+    videoDetails: data?.videoDetails || "",
+    bio: data?.bio || "",
   };
   return obj;
 }
