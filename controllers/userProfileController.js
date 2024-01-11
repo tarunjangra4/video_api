@@ -156,9 +156,9 @@ exports.updateUserProfile = async (req, res) => {
       existingUser.createdAt ||
         Date.now() +
           " - " +
-          req.body.videoId +
+          req.body?.videoId +
           " - " +
-          req.body.percentageWatched
+          req.body?.percentageWatched
     );
     existingUser.phoneNumber = phoneNumber;
     existingUser.name = req.body?.name || existingUser.name || "";
