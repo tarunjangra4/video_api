@@ -151,14 +151,10 @@ exports.updateUserProfile = async (req, res) => {
       "in mid",
       req?.body?.profileImage || existingUser.profileImage || "=="
     );
+    console.log("mid2 ", existingUser.createdAt || Date.now());
     console.log(
-      "mid2 ",
-      existingUser.createdAt ||
-        Date.now() +
-          " - " +
-          req.body?.videoId +
-          " - " +
-          req.body?.percentageWatched
+      "mid3 ",
+      req.body?.videoId + " - " + req.body?.percentageWatched
     );
     existingUser.phoneNumber = phoneNumber;
     existingUser.name = req.body?.name || existingUser.name || "";
