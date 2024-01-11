@@ -144,7 +144,7 @@ exports.updateUserProfile = async (req, res) => {
         });
       }
     }
-    console.log("in mid");
+    console.log("in mid", req.body);
     existingUser.phoneNumber = phoneNumber;
     existingUser.name = req.body.name || existingUser.name || "";
     existingUser.profileImage =
@@ -166,6 +166,7 @@ exports.updateUserProfile = async (req, res) => {
       .status(200)
       .json({ status: "ok", message: "Profile updated successfully." });
   } catch (error) {
+    console.log("endo ", error);
     return res.status(401).json({
       status: "error",
       error: "Internal Server Error.",
