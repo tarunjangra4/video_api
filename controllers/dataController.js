@@ -15,7 +15,7 @@ const {
   DeleteObjectCommand,
 } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const ObjectId = require("mongodb").ObjectId;
+// const ObjectId = require("mongodb").ObjectId;
 
 exports.uploadData = async (req, res) => {
   //   const authHeader = req.headers["authorization"];
@@ -315,20 +315,24 @@ exports.deleteData = async (req, res) => {
 
     if (contentType === "Introduction") {
       deletedContent = await Introduction.deleteOne({
-        _id: ObjectId(contentId),
+        _id: new ObjectId(contentId),
       });
     } else if (contentType === "SEO") {
-      deletedContent = await SEO.deleteOne({ _id: ObjectId(contentId) });
+      deletedContent = await SEO.deleteOne({ _id: new ObjectId(contentId) });
     } else if (contentType === "GoogleAds") {
-      deletedContent = await GoogleAds.deleteOne({ _id: ObjectId(contentId) });
+      deletedContent = await GoogleAds.deleteOne({
+        _id: new ObjectId(contentId),
+      });
     } else if (contentType === "FacebookAds") {
       deletedContent = await FacebookAds.deleteOne({
-        _id: ObjectId(contentId),
+        _id: new ObjectId(contentId),
       });
     } else if (contentType === "CRM") {
-      deletedContent = await CRM.deleteOne({ _id: ObjectId(contentId) });
+      deletedContent = await CRM.deleteOne({ _id: new ObjectId(contentId) });
     } else if (contentType === "ChatBots") {
-      deletedContent = await ChatBots.deleteOne({ _id: ObjectId(contentId) });
+      deletedContent = await ChatBots.deleteOne({
+        _id: new ObjectId(contentId),
+      });
     }
 
     if (deletedContent.deletedCount === 0) {
@@ -390,46 +394,43 @@ exports.updateData = async (req, res) => {
     };
 
     if (contentType === "Introduction") {
-      console.log("Introduction ", obj, contentId);
       await Introduction.updateOne(
         { _id: new ObjectId(contentId) },
         {
           $set: obj,
         }
-      )
-        .then((res) => console.log("res ", res))
-        .catch((err) => console.log("err ", err));
+      );
     } else if (contentType === "SEO") {
       await SEO.updateOne(
-        { _id: ObjectId(contentId) },
+        { _id: new ObjectId(contentId) },
         {
           $set: obj,
         }
       );
     } else if (contentType === "GoogleAds") {
       await GoogleAds.updateOne(
-        { _id: ObjectId(contentId) },
+        { _id: new ObjectId(contentId) },
         {
           $set: obj,
         }
       );
     } else if (contentType === "FacebookAds") {
       await FacebookAds.updateOne(
-        { _id: ObjectId(contentId) },
+        { _id: new ObjectId(contentId) },
         {
           $set: obj,
         }
       );
     } else if (contentType === "CRM") {
       await CRM.updateOne(
-        { _id: ObjectId(contentId) },
+        { _id: new ObjectId(contentId) },
         {
           $set: obj,
         }
       );
     } else if (contentType === "ChatBots") {
       await ChatBots.updateOne(
-        { _id: ObjectId(contentId) },
+        { _id: new ObjectId(contentId) },
         {
           $set: obj,
         }
