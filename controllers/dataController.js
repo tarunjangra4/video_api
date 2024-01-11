@@ -142,7 +142,7 @@ async function getDetails(data = []) {
     };
     newData.push(obj);
   }
-  console.log("new data ", newData);
+
   return newData;
 }
 
@@ -172,7 +172,6 @@ exports.getData = async (req, res) => {
       Introduction.find()
         .then((result) => {
           getDetails(result).then((data) => {
-            console.log("res data ", data);
             return res.status(200).json({ content: data || [] });
           });
         })
