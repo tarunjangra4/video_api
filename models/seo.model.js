@@ -7,6 +7,7 @@ const SEO = new mongoose.Schema(
     pdf_url: { type: String, required: false },
     videoName: { type: String, required: true },
     videoDescription: { type: String, required: true },
+    completeDescription: { type: String, required: false },
     createdAt: { type: Date, required: true },
   },
   {

@@ -381,76 +381,54 @@ exports.updateData = async (req, res) => {
     const contentType = req.body.contentType;
     const contentId = req.body.contentId;
 
+    let obj = {
+      video_url: req.body.videoKey,
+      thumbnail_url: req.body.imageKey,
+      videoName: req.body.name,
+      videoDescription: req.body.videoDescription,
+      completeDescription: req.body.completeDescription,
+    };
+
     if (contentType === "Introduction") {
       await Introduction.updateOne(
         { _id: ObjectId(contentId) },
         {
-          $set: {
-            video_url: req.body.videoKey,
-            thumbnail_url: req.body.imageKey,
-            videoName: req.body.name,
-            videoDescription: req.body.videoDescription,
-          },
+          $set: obj,
         }
       );
     } else if (contentType === "SEO") {
       await SEO.updateOne(
         { _id: ObjectId(contentId) },
         {
-          $set: {
-            video_url: req.body.videoKey,
-            thumbnail_url: req.body.imageKey,
-            videoName: req.body.name,
-            videoDescription: req.body.videoDescription,
-          },
+          $set: obj,
         }
       );
     } else if (contentType === "GoogleAds") {
       await GoogleAds.updateOne(
         { _id: ObjectId(contentId) },
         {
-          $set: {
-            video_url: req.body.videoKey,
-            thumbnail_url: req.body.imageKey,
-            videoName: req.body.name,
-            videoDescription: req.body.videoDescription,
-          },
+          $set: obj,
         }
       );
     } else if (contentType === "FacebookAds") {
       await FacebookAds.updateOne(
         { _id: ObjectId(contentId) },
         {
-          $set: {
-            video_url: req.body.videoKey,
-            thumbnail_url: req.body.imageKey,
-            videoName: req.body.name,
-            videoDescription: req.body.videoDescription,
-          },
+          $set: obj,
         }
       );
     } else if (contentType === "CRM") {
       await CRM.updateOne(
         { _id: ObjectId(contentId) },
         {
-          $set: {
-            video_url: req.body.videoKey,
-            thumbnail_url: req.body.imageKey,
-            videoName: req.body.name,
-            videoDescription: req.body.videoDescription,
-          },
+          $set: obj,
         }
       );
     } else if (contentType === "ChatBots") {
       await ChatBots.updateOne(
         { _id: ObjectId(contentId) },
         {
-          $set: {
-            video_url: req.body.videoKey,
-            thumbnail_url: req.body.imageKey,
-            videoName: req.body.name,
-            videoDescription: req.body.videoDescription,
-          },
+          $set: obj,
         }
       );
     }
