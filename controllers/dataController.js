@@ -72,6 +72,7 @@ exports.uploadData = async (req, res) => {
       .status(200)
       .json({ status: "ok", message: "Video has been uloaded successfully." });
   } catch (error) {
+    console.log("error end ", error);
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({
         status: "error",
