@@ -69,7 +69,7 @@ exports.login = async (req, res) => {
       // email: req.body.email,
       email: userEmail,
     });
-
+    console.log("user ", user);
     if (!user) {
       return res.status(401).json({
         status: "error",
@@ -83,7 +83,7 @@ exports.login = async (req, res) => {
         userPassword,
         user.password
       );
-
+      console.log("password valid");
       if (isPasswordValid) {
         const token = jwt.sign(
           { email: user.email },
