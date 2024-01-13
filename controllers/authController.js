@@ -17,6 +17,7 @@ exports.register = async (req, res) => {
       error: "Please Provide a valid email.",
     });
   }
+  console.log("bef try");
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     await User.create({
