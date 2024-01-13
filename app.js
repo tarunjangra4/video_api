@@ -73,9 +73,10 @@ app.get("/api/content", dataController.getData);
 app.delete("/api/content", dataController.deleteData);
 app.put("/api/content", dataController.updateData);
 
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "build", "index.html"));
-// });
+// for ui build folder routing
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 //
 //
@@ -100,7 +101,7 @@ app.put("/api/content", dataController.updateData);
 //   });
 // }
 
-console.log(PORT);
+// console.log(PORT);
 // app.listen(PORT);
 
 if (
