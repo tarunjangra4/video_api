@@ -23,6 +23,8 @@ exports.register = async (req, res) => {
       email,
       password: hashedPassword,
       createdAt: Date.now(),
+    }).catch((error) => {
+      console.lof("test err ", error);
     });
 
     return res
@@ -74,7 +76,7 @@ exports.login = async (req, res) => {
     }).catch((error) => {
       console.log("error ", error);
     });
-    console.log("user ", user);
+
     if (!user) {
       return res.status(401).json({
         status: "error",
