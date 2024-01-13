@@ -27,7 +27,7 @@ exports.register = async (req, res) => {
       password: hashedPassword,
       createdAt: Date.now(),
     }).catch((error) => {
-      console.lof("test err ", error);
+      console.log("test err ", error);
     });
 
     return res
