@@ -7,11 +7,9 @@ const ObjectId = require("mongodb").ObjectId;
 
 exports.createChat = async (req, res) => {
   const authHeader = req.headers["authorization"];
-  console.log("auth header ", authHeader);
-  const testToken = authHeader.split(" ")[1];
-  console.log("testToken ", testToken);
+  const token = authHeader && authHeader.split(" ")[1];
+  console.log("testToken ", token);
 
-  const token = req.body.headers.Authorization.split(" ")[1];
   if (!token) {
     return res
       .status(401)
@@ -20,26 +18,30 @@ exports.createChat = async (req, res) => {
 
   const videoId = req?.body?.videoId;
   const message = req?.body?.message;
-  const parentChat = req?.body?.parentChat;
+  const parentChatId = req?.body?.parentChatId;
   const createdAt = Date.now();
   const addedBy = req?.body?.addedBy;
 
   if (!videoId) {
+    console.log("Please provide video Id.");
     return res.status(401).json({
       status: "error",
       error: "Please provide video Id.",
     });
   } else if (!message) {
+    console.log("Message cannot be empty.");
     return res.status(401).json({
       status: "error",
       error: "Message cannot be empty.",
     });
   } else if (!parentChat) {
+    console.log("Please provide parent Chat Id.");
     return res.status(401).json({
       status: "error",
       error: "Please provide parent Chat Id.",
     });
   } else if (!addedBy) {
+    console.log("Please provide the user Id.");
     return res.status(401).json({
       status: "error",
       error: "Please provide the user Id.",
@@ -53,6 +55,7 @@ exports.createChat = async (req, res) => {
       createdAt,
       addedBy,
     });
+    console.log("Chat created successfully.");
     return res
       .status(200)
       .json({ status: "success", message: "Chat created successfully." });

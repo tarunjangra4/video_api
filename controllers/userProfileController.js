@@ -22,6 +22,7 @@ async function getImageURL(key) {
 }
 
 async function getDetails(data) {
+  console.log("obj ", obj);
   const obj = {
     email: data?.email || "",
     name: data?.name || "",
