@@ -64,7 +64,10 @@ exports.login = async (req, res) => {
     });
   }
 
+  console.log("before try");
+
   try {
+    console.log("try");
     const user = await User.findOne({
       // email: req.body.email,
       email: userEmail,
