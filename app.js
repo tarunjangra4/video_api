@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 const authController = require("./controllers/authController");
 const userProfileController = require("./controllers/userProfileController");
 const dataController = require("./controllers/dataController");
+const chatController = require("./controllers/chatController");
 const path = require("path");
 // const awsController = require("./controllers/awsController");
 const fs = require("fs"),
@@ -72,6 +73,11 @@ app.post("/api/content", dataController.uploadData);
 app.get("/api/content", dataController.getData);
 app.delete("/api/content", dataController.deleteData);
 app.put("/api/content", dataController.updateData);
+
+// chat api's
+app.post("/api/chat", chatController.createChat);
+app.get("/api/chat", chatController.getVideoChats);
+app.delete("/api/chat", chatController.deleteChat);
 
 // for ui build folder routing
 app.get("*", (req, res) => {
