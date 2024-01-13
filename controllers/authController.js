@@ -71,6 +71,8 @@ exports.login = async (req, res) => {
     const user = await User.findOne({
       // email: req.body.email,
       email: userEmail,
+    }).catch((error) => {
+      console.log("error ", error);
     });
     console.log("user ", user);
     if (!user) {
